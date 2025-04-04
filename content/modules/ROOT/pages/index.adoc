@@ -1,43 +1,228 @@
 = {lab_name}
-
-The `lab_name` var, known as an asciidoc attribute, above was set in `./content/antora.yml` and can be used to set the lab_name or title of your content.
-You are both free to change its value and if you prefer to use a different var name, you can change the value of `lab_name`, for example to `title` in `./content/antora.yml` and then reference it in your content as `\{title}`. +
+:navtitle: Overview
+:numbered:
+:imagesdir: ../assets/images
 
 image::rhel-logo-black.jpg[rhel-logo-black,55%,55%]
 
-== Variables
+== Lab Introduction
 
-Other vars can also be set there, such as `ssh_user` and `ssh_password`, and referenced inline in the lab content by using the `\{foo}` syntax.
+In this lab, you will build an intelligent, self-healing automation workflow using:
 
-This is another var, or asciidoc attribute, from `./content/antora.yml` {my_var}
+- 🧠 RHEL AI for understanding service issues
+- ✨ Ansible Lightspeed to generate remediation playbooks
+- 🔁 Ansible Automation Platform (AAP) workflows for orchestration
+- 📡 Event-Driven Ansible (EDA) to listen to real-time service events
+- 📦 Gitea for GitOps-style content management
+- 💬 Mattermost for alerting and notifications
 
-== Writing your lab
+The goal is to showcase how **automation + AI** can be used to detect, analyze, and remediate Apache service failures **without writing any playbooks manually**.
 
-Whatever type of content you are writing we'll refer to your *content* as "your lab" in this document.
+---
 
-=== Lab structure
+== Lab Environment
 
-Wether you are writing a lab
+Here's what is already running in your demo environment:
 
-* First, we will build a monolithic application already compiled as RPM packages and put it into a container. This will allow us to deploy the application, copy it between machines, and update it separately from the operating system. This process affords us a portable and easily maintained component instead of tightly coupling the application with your operating system maintenance.
+- A RHEL node with Apache (`httpd`) installed
+- Filebeat monitoring Apache logs
+- Kafka acting as the event transport
+- EDA listening to Kafka and launching workflows based on defined rules
+- RHEL AI to infer incident context from logs
+- Ansible Lightspeed to generate a remediation playbook
+- Gitea for version control
+- Ansible Automation Controller to run job templates and workflows
 
-* In closing we will build a second container on a different operating system version that makes an application not packaged into RPMs. This will be similar to a web application deployment, positioning the correct files at the right locations. To do this, we will pull a project from GitHub and position the component files within our container image. The purpose of this is to achieve a portable application container that can deploy on several different versions of Red Hat Enterprise Linux. This also provides the benefit of decoupling your application maintenance, which would all happen by building new containers versus operating system maintenance. The container is no longer reliant on the operating system installed on the machine where the application is deployed.
+---
 
-. Now let's examine this cluster a bit more by describing the cluster (the `$GUID` environment variable is already set for you so you can immediately describe your individual cluster):
-+
-[source,sh,role=execute]
-----
-podman ps
-----
-+
-.Sample Output
-[source,texinfo,subs="attributes"]
-----
-CONTAINER ID  IMAGE                        COMMAND           CREATED      STATUS      PORTS                 NAMES
-2dcfee9e50c4  docker.io/library/httpd:2.4  httpd-foreground  3 hours ago  Up 3 hours  0.0.0.0:8080->80/tcp  showroom-httpd
-----
+== Step 1: Create Workflow 1 – `Generate Lightspeed Remediation`
 
-=== Lab Access
+This workflow is triggered by EDA when it receives an event indicating Apache failure.
 
-The terminal window to your right is *already* logged into the lab environment as the `{ssh_user}` user via `ssh`. 
-All steps of this lab are to be completed as the `{ssh_user}` user.
+Create a new **workflow job template** with the name: `Generate Lightspeed Remediation`.
+
+Add the following job templates in this order:
+
+=== 1. `⚙️ Apache Service Status Check`
+
+*Purpose:*  
+Checks whether Apache is active and logs its status.
+
+*What it does:*  
+- Runs `systemctl status httpd`
+- Collects output and logs it
+- Output is consumed by the next steps (RHEL AI and Mattermost)
+
+---
+
+=== 2. `🤖 RHEL AI: Analyze Incident`
+
+*Purpose:*  
+Uses RHEL AI inference service to understand the failure message.
+
+*What it does:*  
+- Sends logs from the previous step to a model served using InstructLab
+- Returns a natural-language description of the error
+- Suggests what kind of automation could fix it
+
+---
+
+=== 3. `📣 Notify via Mattermost`
+
+*Purpose:*  
+Sends a human-readable incident message to a Mattermost channel.
+
+*What it does:*  
+- Formats the AI response and Apache status
+- Pushes it to a channel using Mattermost Webhook
+- Simulates integration with a real ITSM tool like ServiceNow
+
+---
+
+=== 4. `⚙️ Build Ansible Lightspeed Job Template`
+
+*Purpose:*  
+Creates a new job template with a survey that includes:
+- A user-defined prompt field
+- A pre-filled prompt from RHEL AI output
+
+*Why this is important:*  
+This allows Ansible Lightspeed to generate a remediation playbook without writing code manually. The job template created here will be used in the second workflow.
+
+---
+
+== Step 2: Simulate the Failure (Trigger Workflow 1)
+
+After saving Workflow 1, simulate a failure in Apache to trigger the flow.
+
+. Launch the job template: `❌ Break Apache`  
+*Purpose:* Introduces a known bad directive in `/etc/httpd/conf/httpd.conf` to cause Apache failure
+
+*What happens next:*  
+- Filebeat detects the service issue
+- Kafka forwards the event
+- EDA rulebook matches and triggers `Generate Lightspeed Remediation` workflow
+
+---
+
+== Step 3: Create Workflow 2 – `Execute HTTPD Remediation`
+
+This second workflow starts from the **job template created in Step 1 (Lightspeed Generator)** and finishes with a new job template that applies the fix.
+
+Create a workflow named: `Execute HTTPD Remediation`
+
+Add the following job templates:
+
+=== 1. `🧠 Lightspeed Remediation Playbook Generator`
+
+*Purpose:*  
+Runs the job template created in Workflow 1 to generate a playbook from the AI prompt.
+
+*What it does:*  
+- Uses Lightspeed to turn a prompt into a YAML playbook
+- Stores the result locally as `lightspeed-response.yml`
+
+---
+
+=== 2. `🧾 Commit Fix to Gitea`
+
+*Purpose:*  
+Pushes the generated playbook to the Gitea Git repository.
+
+*What it does:*  
+- Authenticates with Gitea
+- Commits `lightspeed-response.yml`
+- Makes the playbook available for automation use
+
+---
+
+=== 3. `📂 Sync Project: Lightspeed-Playbooks`
+
+*Purpose:*  
+Syncs the `Lightspeed-Playbooks` project in AAP so the new playbook becomes available in the UI.
+
+---
+
+=== 4. `⚙️ Build HTTPD Remediation Template`
+
+*Purpose:*  
+Creates a new job template that uses the playbook pushed in Step 2 to fix the Apache service.
+
+*Note:*  
+This job template is created dynamically and **cannot be part of the workflow**, but it will now appear in the Templates list.
+
+---
+
+== Step 4: Execute the Final Fix
+
+After Workflow 2 completes:
+
+. Navigate to *Templates → Job Templates*
+. Look for the new remediation job template (e.g. `✅ Execute HTTPD Remediation`)
+. Launch it manually
+
+*What it does:*
+- Applies the fix to Apache configuration
+- Restarts the `httpd` service
+- Verifies if the issue is resolved
+
+---
+
+== Optional: `✅ Restore Apache`
+
+If you want to return Apache to a good state (without fixing it via Workflow 2), you can run the `✅ Restore Apache` job template.
+
+---
+
+== Summary of Job Templates
+
+Here's a recap of the job templates used in the lab:
+
+|===
+| Name | Purpose
+
+| `❌ Break Apache` | Simulates a failure in the Apache config
+| `⚙️ Apache Service Status Check` | Checks the current state of Apache
+| `🤖 RHEL AI: Analyze Incident` | Uses RHEL AI to understand the error
+| `📣 Notify via Mattermost` | Sends incident details to a chat system
+| `⚙️ Build Ansible Lightspeed Job Template` | Creates a JT to generate playbooks
+| `🧠 Lightspeed Remediation Playbook Generator` | Uses Lightspeed to generate the fix
+| `🧾 Commit Fix to Gitea` | Pushes the generated playbook to Git
+| `📂 Sync Project: Lightspeed-Playbooks` | Updates Controller project with latest content
+| `⚙️ Build HTTPD Remediation Template` | Creates JT to apply the AI-generated fix
+| `✅ Execute HTTPD Remediation` | Final fix (launched manually)
+| `✅ Restore Apache` | Restores Apache to a known-good config
+|===
+
+---
+
+== Access & Credentials
+
+You're already logged into the environment as `{ssh_user}`. No manual setup is needed.
+
+All lab content is preconfigured and ready to run.
+
+---
+
+== What's Next?
+
+This lab gives you a starting point for building self-healing automation powered by AI. To extend:
+
+- Replace Mattermost with ServiceNow or another ticketing system
+- Add approval steps before applying fixes
+- Support more services (e.g., MySQL, SSH, DNS)
+- Visualize logs using Kibana or Grafana
+
+---
+
+== Congratulations 🎉
+
+You’ve just built an **AI-powered closed-loop remediation system** using:
+
+- 📡 Real-time event capture with EDA
+- 🧠 AI error understanding with RHEL AI
+- ✨ AI-generated fixes with Ansible Lightspeed
+- 📦 Git-backed version control
+- 🔁 AAP workflows to tie it all together
+
+This is the future of intelligent automation. 🚀
