@@ -1,3 +1,11 @@
-= Placeholder for Additional Lab Module
+= Section 2 - Remediation Workflow
 
-This module is reserved for future enhancements related to AI-driven automation.
+
+== Objective
+
+For this section we will build another workflow called the **Remediation Workflow**.
+
+
+
+
+image::automation_execution_templates.png[automation_execution_templates]
