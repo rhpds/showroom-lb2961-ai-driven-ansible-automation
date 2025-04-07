@@ -1,20 +1,18 @@
 = Section 2 - Remediation Workflow
 
-
 == Objective
 
-For this section we will build another workflow called the **Remediation Workflow**.  The goal for this workflow is to take the information we learned from Section 1 from RHEL AI and now prompt Ansible Lightspeed to automatically create an Ansible Playbook to fix the issue.  By combining these two workflows we can create an AIOps workflow and create self healing infrastrucure!
+For this section, we will build another workflow called the **Remediation Workflow**. The goal for this workflow is to take the information we learned from Section 1 with RHEL AI and now prompt Ansible Lightspeed to automatically create an Ansible Playbook to fix the issue. By combining these two workflows, we can create an AIOps workflow capable of self-healing infrastructure.
 
-By sepearting these two parts into two separate workflows, this allows us to manually review the response from RHEL AI and make correction action if necessary. This is a natural stopping point in our automation workflow where we can make sure the automation is doing what we expect it to do.
+By separating these two parts into distinct workflows, we allow for manual review of the response from RHEL AI and can take corrective action if necessary. This creates a natural stopping point in our automation workflow where we can ensure the automation is performing as expected.
 
 == Guide
 
-
-1. Login to the webUI for Ansible Automation Platform if you are not already in there.
-2. On the left navigation menu, click on Automation Execution -> Templates
+1. Log in to the web UI for Ansible Automation Platform if you are not already logged in.
+2. In the left navigation menu, click on *Automation Execution* → *Templates*.
 
 image::automation_execution_templates.png[automation_execution_templates]
 
-3. Click on the blue Create template, then select **Create workflow job template**
+3. Click the blue *Create template* button, then select **Create workflow job template**.
 
 image::create_workflow.png[create_workflow]
