@@ -3,7 +3,7 @@
 :numbered:
 :imagesdir: ../assets/images
 
-image::rhel-logo-black.jpg[rhel-logo-black,55%,55%]
+image::aap_logo.png[aap_logo,55%,55%]
 
 == Lab Introduction
 
