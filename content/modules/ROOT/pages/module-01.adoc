@@ -14,7 +14,45 @@ By separating these two parts into distinct workflows, we allow for manual revie
 [quote]
 ⚠️ Reminder that the way we purposely broke httpd with the *❌ Break Apache* Job Template was by inserting *InvalidDirectiveHere* into the configuration file and restarting the service.  This crashed httpd service as you can see by running the *systemctl status httpd.service* Linux command.
 
-== Guide
+== Verify webserver failure
+
+1. Connect to your bastion host either via SSH or Visual Studio Code.  The connection information is provided by your instructor.
+
+2. SSH over to node1
+
+[source,bash]
+----
+[lab-user@bastion ~]$ ssh node1
+Last login: Tue Apr  8 15:56:41 2025 from 192.168.0.37
+[ec2-user@node1 ~]$
+----
+
+[start=3]
+3. Verify httpd is down with the *systemctl status httpd.service* command
+
+[source,bash]
+----
+[ec2-user@node1 ~]$ sudo systemctl status httpd.service
+× httpd.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; preset: disabled)
+     Active: failed (Result: exit-code) since Tue 2025-04-08 15:56:15 UTC; 1h 11min ago
+   Duration: 1min 9.506s
+       Docs: man:httpd.service(8)
+    Process: 4099 ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND (code=exited, status=1/FAILURE)
+   Main PID: 4099 (code=exited, status=1/FAILURE)
+     Status: "Reading configuration..."
+        CPU: 58ms
+
+Apr 08 15:56:15 node1.example.com systemd[1]: Starting The Apache HTTP Server...
+Apr 08 15:56:15 node1.example.com httpd[4099]: AH00526: Syntax error on line 35 of /etc/httpd/conf/httpd.conf:
+Apr 08 15:56:15 node1.example.com httpd[4099]: Invalid command 'InvalidDirectiveHere', perhaps misspelled or defined by a module not included in the server configuration
+Apr 08 15:56:15 node1.example.com systemd[1]: httpd.service: Main process exited, code=exited, status=1/FAILURE
+Apr 08 15:56:15 node1.example.com systemd[1]: httpd.service: Failed with result 'exit-code'.
+Apr 08 15:56:15 node1.example.com systemd[1]: Failed to start The Apache HTTP Server.
+[ec2-user@node1 ~]$
+----
+
+== Create Remediation Workflow
 
 1. Log in to the web UI for Ansible Automation Platform if you are not already logged in.
 2. In the left navigation menu, click on *Automation Execution* → *Templates*.
@@ -66,8 +104,198 @@ image::add_step_lightspeed_remedation.png[add_step_lightspeed_remedation,500]
 
 image::blue_next_button.png[blue_next_button,150]
 
+[start=9]
+9. Review the Survey section
+
+image::survey_section.png[survey_section,500]
+
 [quote]
 ⚠️ This is the really cool part!  There is two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manualy created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By seperating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next woorkflow!
 
-[start=9]
-9. Modify the first text box with the Red Hat AI solution. Feel free to change the prompt to anything you want.
+[start=10]
+10. Modify the first text box with the Red Hat AI solution. Feel free to change the prompt to anything you want.
+
+11. Click on the blue *Next*
+
+image::blue_next_button.png[blue_next_button,150]
+
+[start=12]
+12. Review and click the blue *Finish* button.
+
+image::blue_finish_button.png[blue_finish_button,150]
+
+Your workflow will now look like this:
+
+image::remediation_workflow_part_one.png[remediation_workflow_part_one,500]
+
+[start=13]
+13. Click on the three dots (kebab menu) next to the *🧠 Lightspeed Remediation Playbook Generator* node
+
+14. Click on *⊕ Add step and link*
+
+image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
+
+[start=15]
+15. Fill out the following values
+
+[options="header"]
+|===
+| Parameter | Value
+| Node type | Job Template
+| Job Template | 🧾 Commit Fix to Gitea
+| Status | Run on success
+| Convergence | Any
+| Node alias | (You can leave this blank)
+|===
+
+image::remeidation_workflow_part_two.png[remeidation_workflow_part_two,500]
+
+[start=16]
+16. Click on the blue *Next*
+
+image::blue_next_button.png[blue_next_button,150]
+
+[start=17]
+17. Review and click the blue *Finish* button
+
+image::blue_finish_button.png[blue_finish_button,150]
+
+Your workflow will now look like this:
+
+image::remediation_workflow_part_two_final.png[remediation_workflow_part_two_final,500]
+
+[start=18]
+18. Click on the three dots (kebab menu) next to the *🧾 Commit Fix to Gitea* node
+
+19 Click on *⊕ Add step and link*
+
+image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
+
+[start=20]
+20. Fill out the following values
+
+[options="header"]
+|===
+| Parameter | Value
+| Node type | Project Sync
+| Job Template | Lightspeed-Playbooks
+| Status | Run on success
+| Convergence | Any
+| Node alias | (You can leave this blank)
+|===
+
+image::remediation_workflow_part_three.png[remediation_workflow_part_three,500]
+
+[quote]
+⚠️ Notice this node type is different.  This is a *built-in* node type that will force a **Project Sync** to the repository that will hold our auto-generated Ansible Playbooks.  This is effectively a *git pull*  The previous node: *🧾 Commit Fix to Gitea*  synced the Ansible Playbook from Ansible Lightspeed to Gitea, now we are retrieving that playbook from Gitea to use in Ansible Automation Platform.
+
+[start=21]
+21. Click on the blue *Next*
+
+image::blue_next_button.png[blue_next_button,150]
+
+[start=22]
+22. Review and click the blue *Finish* button.
+
+image::blue_finish_button.png[blue_finish_button,150]
+
+Your workflow will now look like this:
+
+image::remediation_workflow_part_three_final.png[remediation_workflow_part_three_final,500]
+
+[start=23]
+23. Click on the three dots (kebab menu) next to the *🧠 Lightspeed-Playbooks* node
+
+24. Click on *⊕ Add step and link*
+
+image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
+
+[start=25]
+25. Fill out the following values
+
+[options="header"]
+|===
+| Parameter | Value
+| Node type | Job Template
+| Job Template | ⚙️ Build HTTPD Remediation Template
+| Status | Run on success
+| Convergence | Any
+| Node alias | (You can leave this blank)
+|===
+
+image::remedation_workflow_part_four.png[remedation_workflow_part_four,500]
+
+[start=26]
+26. Click on the blue *Next*
+
+image::blue_next_button.png[blue_next_button,150]
+
+[start=27]
+27. Review and click the blue *Finish* button
+
+image::blue_finish_button.png[blue_finish_button,150]
+
+Your workflow will now look like this:
+
+image::remedation_workflow_part_four_final.png[remedation_workflow_part_four_final,500]
+
+You are now done creating the workflow!
+
+[start=28]
+28. Click on the blue **Save** button at the top.
+
+image::save_button.png[save_button,150]
+
+[start=29]
+29. Exit out of the Workflow Visualizer by clicking the *x* at the top right
+
+30. Click the *🚀 Launch template* button to execute the *Remediation Workflow*
+
+image::launch_template_button.png[launch_template_button,150]
+
+When the workflow completes you will see a green ✅ Success
+
+image::remediation_workflow_success.png[remediation_workflow_success,150]
+
+[quote]
+🎉 You have used Ansible Automation Platform in an AIOps workflow to automatically create an Ansible Job Template to fix your issue
+
+== Fix webserver issue
+
+
+== Check Success
+
+1. Connect to your bastion host either via SSH or Visual Studio Code.  The connection information is provided by your instructor.
+
+2. SSH over to node1
+
+[source,bash]
+----
+[lab-user@bastion ~]$ ssh node1
+Last login: Tue Apr  8 15:56:41 2025 from 192.168.0.37
+[ec2-user@node1 ~]$
+----
+
+3. Verify httpd is down with the *systemctl status httpd.service* command
+
+[source,bash]
+----
+[ec2-user@node1 ~]$ sudo systemctl status httpd.service
+× httpd.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; preset: disabled)
+     Active: failed (Result: exit-code) since Tue 2025-04-08 15:56:15 UTC; 1h 11min ago
+   Duration: 1min 9.506s
+       Docs: man:httpd.service(8)
+    Process: 4099 ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND (code=exited, status=1/FAILURE)
+   Main PID: 4099 (code=exited, status=1/FAILURE)
+     Status: "Reading configuration..."
+        CPU: 58ms
+
+Apr 08 15:56:15 node1.example.com systemd[1]: Starting The Apache HTTP Server...
+Apr 08 15:56:15 node1.example.com httpd[4099]: AH00526: Syntax error on line 35 of /etc/httpd/conf/httpd.conf:
+Apr 08 15:56:15 node1.example.com httpd[4099]: Invalid command 'InvalidDirectiveHere', perhaps misspelled or defined by a module not included in the server configuration
+Apr 08 15:56:15 node1.example.com systemd[1]: httpd.service: Main process exited, code=exited, status=1/FAILURE
+Apr 08 15:56:15 node1.example.com systemd[1]: httpd.service: Failed with result 'exit-code'.
+Apr 08 15:56:15 node1.example.com systemd[1]: Failed to start The Apache HTTP Server.
+[ec2-user@node1 ~]$
+----
