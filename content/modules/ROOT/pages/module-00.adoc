@@ -1,3 +1,4 @@
+:imagesdir: ../assets/images
 = Section 2 - Log Enrichment and Prompt Generation Workflow
 
 == Objective
@@ -60,6 +61,42 @@ curl -X POST http://rhelai.example.com:8000/v1/completions \
 ----
 
 This returns a JSON response with helpful AI suggestions. This is exactly what’s being automated in the next step via the **🤖 RHEL AI: Analyze Incident** job template.
+
+== Exploring Mattermost Integration
+
+In this lab environment, we’ve included Mattermost, a lightweight, open-source chat client that serves as a central place to view error logs and AI insights as part of your AI-Ops workflow.
+
+Think of Mattermost as a stand-in for ServiceNow in this demonstration.
+
+[quote]
+💡 In a real-world production environment, you can easily replace Mattermost with ServiceNow (or any other ITSM tool). This enables a more advanced automated workflow, where tickets are automatically created and enriched with logs and insights — all before a human even picks up the ticket!
+
+=== Accessing Mattermost
+	1.	Navigate to the Mattermost tab in the lab landing page (or use the direct link provided).
+	2.	Click on “View in Browser” to open the console.
+	3.	Login using the credentials provided in the Mattermost section of the lab’s landing page:
+
+[options=“header”]
+|===
+| Field | Value
+| Username | ansibleadmin@ansible.com
+| Password | ansible123!
+|===
+
+Once logged in, click on the Town Square channel from the left-hand navigation.
+
+image::mattermost_town_square_placeholder.png[Click on Town Square, 60%, link=“replace_with_actual_image_later”]
+
+=== What You’ll See in Town Square
+
+In the Town Square channel, you will begin seeing:
+	•	🔍 Error logs from the Apache HTTPD service (collected by Filebeat and forwarded via Kafka)
+	•	🧠 AI Insights generated from the logs using RHEL AI
+
+This real-time feed mimics how production environments might use automated ticket enrichment — by capturing logs and insights and sending them directly to a ticketing system like ServiceNow.
+
+[quote]
+💡 With this integration, you are essentially watching AI and automation work together — detecting the issue, diagnosing it, and preparing remediation guidance before anyone intervenes.
 
 == Guide
 
