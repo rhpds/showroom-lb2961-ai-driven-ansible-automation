@@ -8,6 +8,12 @@ image::remediation_workflow.png[remediation_workflow]
 
 By separating these two parts into distinct workflows, we allow for manual review of the response from RHEL AI and can take corrective action if necessary. This creates a natural stopping point in our automation workflow where we can ensure the automation is performing as expected.
 
+[quote]
+⚠️ Before we get started you need to make sure you have run the first workflow.
+
+[quote]
+⚠️ Reminder that the way we purposely broke httpd with the *❌ Break Apache* Job Template was by inserting *InvalidDirectiveHere* into the configuration file and restarting the service.  This crashed httpd service as you can see by running the *systemctl status httpd.service* Linux command.
+
 == Guide
 
 1. Log in to the web UI for Ansible Automation Platform if you are not already logged in.
@@ -59,3 +65,9 @@ image::add_step_lightspeed_remedation.png[add_step_lightspeed_remedation,500]
 8. Click on the blue *Next*
 
 image::blue_next_button.png[blue_next_button,150]
+
+[quote]
+⚠️ This is the really cool part!  There is two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manualy created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By seperating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next woorkflow!
+
+[start=9]
+9. Modify the first text box with the Red Hat AI solution. Feel free to change the prompt to anything you want.
