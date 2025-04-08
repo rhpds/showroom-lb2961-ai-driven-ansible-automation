@@ -13,6 +13,53 @@ By organizing these steps into a workflow, we simulate how multiple tools can co
 [quote]
 ⚠️ This workflow will be automatically triggered by EDA once the `❌ Break Apache` job template is run. You must create this workflow before simulating the failure.
 
+== Introducing AI with Ansible
+
+Red Hat Enterprise Linux AI (RHEL AI) is already deployed in this lab and powered by the **Granite LLM** model. You can interact with this AI using simple curl commands or trigger it through Job Templates via Ansible Automation Platform.
+
+RHEL AI is deployed using two Ansible Content Collections:
+* `redhat.ai` (Certified)
+* `infra.ai` (Validated)
+
+These are available as part of your AAP subscription, giving your organization a quick and validated path to deploy generative AI models using automation.
+
+=== Try It Yourself: Talk to the AI!
+
+Before diving into the workflow, let’s see how easy it is to test this out yourself.
+
+1. Open the **Terminal** in the lab.
+2. Run the following `curl` command (replace `<TOKEN>` with your lab password):
+
+[source,shell]
+----
+curl -X POST http://rhelai.example.com:8000/v1/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {showroom_user_password}" \
+  -d '{
+    "model": "/root/.cache/instructlab/models/granite-8b-lab-v1",
+    "prompt": "What is the capital of USA?",
+    "max_tokens": 100,
+    "temperature": 0.7
+  }' | jq -r '.choices[0].text'
+----
+
+You can also try real-world prompts like:
+
+[source,shell]
+----
+curl -X POST http://rhelai.example.com:8000/v1/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {showroom_user_password}" \
+  -d '{
+    "model": "/root/.cache/instructlab/models/granite-8b-lab-v1",
+    "prompt": "systemd[1]: httpd.service: Failed with result exit-code. Suggest a fix for Apache.",
+    "max_tokens": 150,
+    "temperature": 0.6
+  }' | jq -r .choices[0].text
+----
+
+This returns a JSON response with helpful AI suggestions. This is exactly what’s being automated in the next step via the **🤖 RHEL AI: Analyze Incident** job template.
+
 == Guide
 
 1. Log in to the web UI for Ansible Automation Platform if you're not already logged in.
