@@ -1,0 +1,134 @@
+= Section 2 - Enrichment and Prompt Generation Workflow
+
+== Objective
+
+In this section, we will build the first workflow called the **AI Insights and Lightspeed prompt generationn** workflow. This workflow will be triggered by Event-Driven Ansible (EDA) whenever an issue is detected in the system. Specifically, this demo is set up to respond to an Apache (httpd) service failure.
+
+This workflow will check the status of the Apache service, notify a Mattermost channel with details, ask RHEL AI to analyze the incident, and finally create a new job template using the AI-generated prompt for Ansible Lightspeed.
+
+image::enrichment_workflow_diagram.png[Enrichment and Prompt Generation Workflow]
+
+By organizing these steps into a workflow, we simulate how multiple tools can collaborate to enrich a ticket or alert and prepare the remediation plan—all before a human even reviews the problem.
+
+[quote]
+⚠️ This workflow will be automatically triggered by EDA once the `❌ Break Apache` job template is run. You must create this workflow before simulating the failure.
+
+== Guide
+
+1. Log in to the web UI for Ansible Automation Platform if you're not already logged in.
+
+2. In the left navigation menu, click on *Automation Execution* → *Templates*.
+
+image::automation_execution_templates.png[automation_execution_templates]
+
+[start=3]
+3. Click the blue *Create template* button, then select **Create workflow job template**.
+
+image::create_workflow.png[create_workflow,300]
+
+[start=4]
+4. Fill out the following values
+
+[options="header"]
+|===
+| Parameter | Value
+| Name | AI Insights and Lightspeed prompt generation
+| Organization | Default
+|===
+
+[start=5]
+5. Click the blue *Create workflow job template* button
+
+image::create_workflow_job_template.png[create_workflow_job_template,300]
+
+[start=6]
+6. You will now see a blank workflow canvas.
+
+image::currently_no_nodes_workflow.png[currently_no_nodes_workflow,400]
+
+[start=7]
+7. Click the blue *Add Step* button to begin adding Job Templates to the workflow.
+
+== Workflow Steps
+
+Each of the following steps adds a specific job template. Let’s go through them one by one.
+
+[start=8]
+8. Add the first step:
+
+[options="header"]
+|===
+| Parameter | Value
+| Node type | Job Template
+| Job Template | ⚙️ Apache Service Status Check
+| Convergence | Any
+| Node alias | (You can leave this blank)
+|===
+
+image::add_apache_status_check_step.png[Add Apache Status Check Step]
+
+[start=9]
+9. Add the second step connected to the first:
+
+[options="header"]
+|===
+| Parameter | Value
+| Node type | Job Template
+| Job Template | 🤖 RHEL AI: Analyze Incident
+| Convergence | Any
+| Node alias | (Optional)
+|===
+
+image::add_rhel_ai_step.png[Add RHEL AI Inference Step]
+
+[start=10]
+10. Add the third step after Mattermost:
+
+[options="header"]
+|===
+| Parameter | Value
+| Node type | Job Template
+| Job Template | 📣 Notify via Mattermost
+| Convergence | Any
+| Node alias | (Optional)
+|===
+
+image::add_mattermost_step.png[Add Mattermost Notification Step]
+
+[start=11]
+11. Finally, add the last step:
+
+[options="header"]
+|===
+| Parameter | Value
+| Node type | Job Template
+| Job Template | ⚙️ Build Ansible Lightspeed Job Template
+| Convergence | Any
+| Node alias | (Optional)
+|===
+
+image::add_lightspeed_jt_creator.png[Add Lightspeed JT Creator Step]
+
+[quote]
+⚠️ This job template will generate another job template using the Lightspeed AI-generated prompt. That new job template will be used in the next workflow for actual remediation.
+
+== Trigger the Workflow
+
+Once this workflow is saved, it will be automatically triggered by EDA when Apache fails.  
+To simulate the failure and test the flow:
+
+[start=12]
+12. Run the `❌ Break Apache` job template. This inserts an invalid directive in Apache config and restarts the service.
+
+image::run_break_apache.png[Run ❌ Break Apache Template]
+
+13. Go to *EDA Controller* → *Rulebook Activations* and observe that the rulebook captured the event.
+
+image::eda_trigger_capture.png[EDA Rulebook Activation Capture]
+
+14. Return to *Automation Controller* → *Jobs* to verify that the workflow `AI Insights and Lightspeed prompt generation` was triggered successfully.
+
+image::workflow_triggered_jobs.png[Workflow Triggered from EDA]
+
+[quote]
+✅ Once this completes, you’ll have a brand new job template ready to run Lightspeed-based remediation using the AI-generated prompt!
