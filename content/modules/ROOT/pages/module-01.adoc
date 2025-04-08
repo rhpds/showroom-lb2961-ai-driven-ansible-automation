@@ -260,7 +260,7 @@ When the workflow completes you will see a green ✅ Success
 image::remediation_workflow_success.png[remediation_workflow_success,150]
 
 [quote]
-🎉 You have used Ansible Automation Platform in an AIOps workflow to automatically create an Ansible Job Template to fix your issue.  This has created an Ansible Job Template called *🔧✅ Execute HTTPD Remediation*.  You could also add this to the workflow, but it might be another natural stopping area where you can schedule this job template during an allowed change window.  For example, some organization might only want to apply changes to production servers on Sundays at 3AM.
+🎉 You have used Ansible Automation Platform in an AIOps workflow to automatically create an Ansible Job Template to fix your issue. This has created an Ansible Job Template called *🔧✅ Execute HTTPD Remediation*. You could also add this to the workflow, but it might be a natural breakpoint where you schedule this job template during an approved change window. For example, some organizations might only want to apply changes to production servers on Sundays at 3AM.
 
 == Fix webserver issue
 
