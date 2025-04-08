@@ -1,4 +1,4 @@
-= Section 2 - Enrichment and Prompt Generation Workflow
+= Section 2 - Log Enrichment and Prompt Generation Workflow
 
 == Objective
 
