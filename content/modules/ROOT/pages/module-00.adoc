@@ -18,6 +18,7 @@ By organizing these steps into a workflow, we simulate how multiple tools can co
 Red Hat Enterprise Linux AI (RHEL AI) is already deployed in this lab and powered by the **Granite LLM** model. You can interact with this AI using simple curl commands or trigger it through Job Templates via Ansible Automation Platform.
 
 RHEL AI is deployed using two Ansible Content Collections:
+
 * `redhat.ai` (Certified)
 * `infra.ai` (Validated)
 
