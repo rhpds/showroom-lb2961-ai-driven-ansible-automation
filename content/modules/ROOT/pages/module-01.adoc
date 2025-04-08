@@ -4,6 +4,8 @@
 
 For this section, we will build another workflow called the **Remediation Workflow**. The goal for this workflow is to take the information we learned from Section 1 with RHEL AI and now prompt Ansible Lightspeed to automatically create an Ansible Playbook to fix the issue. By combining these two workflows, we can create an AIOps workflow capable of self-healing infrastructure.
 
+image::remediation_workflow.png[remediation_workflow]
+
 By separating these two parts into distinct workflows, we allow for manual review of the response from RHEL AI and can take corrective action if necessary. This creates a natural stopping point in our automation workflow where we can ensure the automation is performing as expected.
 
 == Guide
@@ -13,6 +15,47 @@ By separating these two parts into distinct workflows, we allow for manual revie
 
 image::automation_execution_templates.png[automation_execution_templates]
 
+[start=3]
 3. Click the blue *Create template* button, then select **Create workflow job template**.
 
-image::create_workflow.png[create_workflow]
+image::create_workflow.png[create_workflow,300]
+
+[start=4]
+4. Fill out the following values
+
+[options="header"]
+|===
+| Parameter | Value
+| Name | Remediation Workflow
+| Organization | Default
+|===
+
+[start=5]
+5. Click the blue *Create workflow job template* button
+
+image::create_workflow_job_template.png[create_workflow_job_template,300]
+
+You will get a window that looks like this:
+
+image::currently_no_nodes_workflow.png[currently_no_nodes_workflow,400]
+
+[start=6]
+6. Click on the blue *Add step*
+
+7. Fill out the following values
+
+[options="header"]
+|===
+| Parameter | Value
+| Node type | Job Template
+| Job Template | 🧠 Lightspeed Remediation Playbook Generator
+| Convergence | Any
+| Node alias | (You can leave this blank)
+|===
+
+image::add_step_lightspeed_remedation.png[add_step_lightspeed_remedation,500]
+
+[start=8]
+8. Click on the blue *Next*
+
+image::blue_next_button.png[blue_next_button,150]

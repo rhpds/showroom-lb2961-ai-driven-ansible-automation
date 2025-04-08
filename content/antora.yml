@@ -1,5 +1,5 @@
 name: modules
-title: Default Title
+title: Introduction to AI-Driven Ansible Automation
 version: master
 nav:
   - modules/ROOT/nav.adoc

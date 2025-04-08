@@ -3,7 +3,7 @@
 :numbered:
 :imagesdir: ../assets/images
 
-image::aap_logo.png[aap_logo,55%,55%]
+image::aiops.png[aiops,55%,55%]
 
 == Lab Introduction
 
@@ -226,3 +226,5 @@ You’ve just built an **AI-powered closed-loop remediation system** using:
 - 🔁 AAP workflows to tie it all together
 
 This is the future of intelligent automation. 🚀
+
+image::aap_logo.png[aap_logo,55%,55%]
