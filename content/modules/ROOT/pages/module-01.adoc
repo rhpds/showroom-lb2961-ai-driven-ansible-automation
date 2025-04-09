@@ -239,7 +239,7 @@ image::blue_finish_button.png[blue_finish_button,150]
 
 Your workflow will now look like this:
 
-image::remediation_workflow_part_four_final.png[remediation_workflow_part_four_final,500]
+image::remedation_workflow_part_four_final.png[remediation_workflow_part_four_final,500]
 
 You are now done creating the workflow!
 
