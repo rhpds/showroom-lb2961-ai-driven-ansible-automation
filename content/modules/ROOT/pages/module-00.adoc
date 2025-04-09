@@ -237,11 +237,11 @@ Go to Templates and you should be able to see a new template called "🧠 Lights
 
 You created a workflow that:
 
-Uses logs for root cause analysis via Red Hat AI
+* Uses logs for root cause analysis via Red Hat AI
 
-Notifies Mattermost
+* Notifies Mattermost
 
-Prepares a Lightspeed prompt for automated playbook generation
+* Prepares a Lightspeed prompt for automated playbook generation
 
 In the next step, we’ll use that prompt to fix Apache automatically!
 
