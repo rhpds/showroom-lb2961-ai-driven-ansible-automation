@@ -10,12 +10,13 @@ Here's a recap of the job templates and rulebooks used in the lab:
 (in chronological order):
 
 Glossary:
+
 *RB* = Rulebook (for Event-Driven Ansible)
 *JT* = Job Template (for executing Ansible Playbooks)
 
 |===
 | Name | Purpose
-| `❌ Break Apache` | Simulates a failure in the Apache config
+| `❌ Break Apache` | JT simulates a failure in the Apache config
 | `Web App` | RB that watches Kafka queue for httpd disruption
 | `⚙️ Apache Service Status Check` | JT that checks the current state of Apache
 | `🤖 RHEL AI: Analyze Incident` | JT that uses RHEL AI to understand the error
