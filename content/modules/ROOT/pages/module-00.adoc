@@ -4,7 +4,7 @@
 
 In this section, we will build the first workflow called the **AI Insights and Lightspeed prompt generationn** workflow. This workflow will be triggered by Event-Driven Ansible (EDA) whenever an issue is detected in the system. Specifically, this demo is set up to respond to an Apache (httpd) service failure.
 
-This workflow will check the status of the Apache service, notify a Mattermost channel with details, ask RHEL AI to analyze the incident, and finally create a new job template using the AI-generated prompt for Ansible Lightspeed.
+This workflow will check the status of the Apache service, notify a Mattermost channel with details, ask Red Hat AI to analyze the incident, and finally create a new job template using the AI-generated prompt for Ansible Lightspeed.
 
 image::enrichment_workflow_diagram.png[Enrichment and Prompt Generation Workflow]
 
@@ -15,9 +15,9 @@ By organizing these steps into a workflow, we simulate how multiple tools can co
 
 == Introducing AI with Ansible
 
-Red Hat Enterprise Linux AI (RHEL AI) is already deployed in this lab and powered by the **Granite LLM** model. You can interact with this AI using simple curl commands or trigger it through Job Templates via Ansible Automation Platform.
+Red Hat AI is already deployed in this lab and powered by the **Granite LLM** model. You can interact with this AI using simple curl commands or trigger it through Job Templates via Ansible Automation Platform.
 
-RHEL AI is deployed using two Ansible Content Collections:
+Red Hat AI is deployed using two Ansible Content Collections:
 
 * `redhat.ai` (Certified)
 * `infra.ai` (Validated)
@@ -198,7 +198,7 @@ image::add_lightspeed_jt_creator.png[Add Lightspeed JT Creator Step]
 
 == Trigger the Workflow
 
-Once this workflow is saved, it will be automatically triggered by EDA when Apache fails.  
+Once this workflow is saved, it will be automatically triggered by EDA when Apache fails.
 To simulate the failure and test the flow:
 
 [start=12]

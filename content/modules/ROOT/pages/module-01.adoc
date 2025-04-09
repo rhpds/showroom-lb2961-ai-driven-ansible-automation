@@ -2,17 +2,17 @@
 
 == Objective
 
-For this section, we will build another workflow called the **Remediation Workflow**. The goal for this workflow is to take the information we learned from Section 1 with RHEL AI and now prompt Ansible Lightspeed to automatically create an Ansible Playbook to fix the issue. By combining these two workflows, we can create an AIOps workflow capable of self-healing infrastructure.
+For this section, we will build another workflow called the **Remediation Workflow**. The goal for this workflow is to take the information we learned from Section 1 with Red Hat AI and now prompt Ansible Lightspeed to automatically create an Ansible Playbook to fix the issue. By combining these two workflows, we can create an AIOps workflow capable of self-healing infrastructure.
 
 image::remediation_workflow.png[remediation_workflow]
 
-By separating these two parts into distinct workflows, we allow for manual review of the response from RHEL AI and can take corrective action if necessary. This creates a natural stopping point in our automation workflow where we can ensure the automation is performing as expected.
+By separating these two parts into distinct workflows, we allow for manual review of the response from Red Hat AI and can take corrective action if necessary. This creates a natural stopping point in our automation workflow where we can ensure the automation is performing as expected.
 
 [quote]
 ⚠️ Before we get started you need to make sure you have run the first workflow.
 
 [quote]
-⚠️ Reminder that the way we purposely broke httpd with the *❌ Break Apache* Job Template was by inserting *InvalidDirectiveHere* into the configuration file and restarting the service.  This crashed httpd service as you can see by running the *systemctl status httpd.service* Linux command.
+⚠️ Reminder that the way we purposely broke httpd with the *❌ Break Apache* Job Template was by inserting *InvalidDirectiveHere* into the configuration file and restarting the service.  This crashed the httpd service as you can see by running the *systemctl status httpd.service* Linux command.
 
 == Verify webserver failure
 
@@ -99,10 +99,10 @@ image::currently_no_nodes_workflow.png[currently_no_nodes_workflow,400]
 | Node alias | (You can leave this blank)
 |===
 
-image::add_step_lightspeed_remedation.png[add_step_lightspeed_remedation,500]
+image::add_step_lightspeed_remediation.png[add_step_lightspeed_remediation,500]
 
 [start=8]
-8. Click on the blue *Next*
+8. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
@@ -112,12 +112,12 @@ image::blue_next_button.png[blue_next_button,150]
 image::survey_section.png[survey_section,500]
 
 [quote]
-⚠️ This is the really cool part!  There is two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manualy created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By seperating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next woorkflow!
+⚠️ This is the really cool part!  There are two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manually created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By separating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next workflow!
 
 [start=10]
 10. Modify the first text box with the Red Hat AI solution. Feel free to change the prompt to anything you want.
 
-11. Click on the blue *Next*
+11. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
@@ -150,10 +150,10 @@ image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 | Node alias | (You can leave this blank)
 |===
 
-image::remeidation_workflow_part_two.png[remeidation_workflow_part_two,500]
+image::remediation_workflow_part_two.png[remediation_workflow_part_two,500]
 
 [start=16]
-16. Click on the blue *Next*
+16. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
@@ -192,7 +192,7 @@ image::remediation_workflow_part_three.png[remediation_workflow_part_three,500]
 ⚠️ Notice this node type is different.  This is a *built-in* node type that will force a **Project Sync** to the repository that will hold our auto-generated Ansible Playbooks.  This is effectively a *git pull*  The previous node: *🧾 Commit Fix to Gitea*  synced the Ansible Playbook from Ansible Lightspeed to Gitea, now we are retrieving that playbook from Gitea to use in Ansible Automation Platform.
 
 [start=21]
-21. Click on the blue *Next*
+21. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
@@ -225,10 +225,10 @@ image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 | Node alias | (You can leave this blank)
 |===
 
-image::remedation_workflow_part_four.png[remedation_workflow_part_four,500]
+image::remediation_workflow_part_four.png[remediation_workflow_part_four,500]
 
 [start=26]
-26. Click on the blue *Next*
+26. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
@@ -239,7 +239,7 @@ image::blue_finish_button.png[blue_finish_button,150]
 
 Your workflow will now look like this:
 
-image::remedation_workflow_part_four_final.png[remedation_workflow_part_four_final,500]
+image::remediation_workflow_part_four_final.png[remediation_workflow_part_four_final,500]
 
 You are now done creating the workflow!
 
@@ -276,10 +276,10 @@ image::automation_execution_templates.png[automation_execution_templates]
 image::limit_node1.png[limit_node1,300]
 
 [quote]
-⚠️ A limit in Ansible Automation Platform is equivlanet to `--limit` with the `ansible-playbook` command.  The limit specifies the host or hosts you want to run the Ansible Job on versus the entire inventory, effectively *limiting* it to only running on those host(s).
+⚠️ A limit in Ansible Automation Platform is equivalent to `--limit` with the `ansible-playbook` command.  The limit specifies the host or hosts you want to run the Ansible Job on versus the entire inventory, effectively *limiting* it to only running on those host(s).
 
 [start=4]
-4. Click on the blue *Next*
+4. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
