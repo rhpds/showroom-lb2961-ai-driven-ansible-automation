@@ -23,14 +23,14 @@ AIOps stands for *artificial intelligence* for IT operations. It refers both to 
 In AIOps there are three major parts:
 
 - Obervability
-- Automation
 - Inference
+- Automation
 
 image::aiops-circle.png[aiops diagram,55%,55%]
 
-- *Inference* - Inference in AI refers to the process of using a trained model to make predictions or decisions based on new, unseen data.  For this AIOps workflow we are using *Red Hat AI* for understanding service issues like an application outage, and *Ansible Lightspeed* to create an Ansible Playbook.
-
 - *Observability* is the ability to understand the internal state of a system by collecting, analyzing, and visualizing data from logs, metrics, and traces.  This _can_ be another AI tool such as *IBM Instana Observability*.  For this lab we are simply relaying logs using https://www.elastic.co/beats/filebeat[Filebeat, window=_blank], a Lightweight shipper for logs.  Ansible Automation Platform can integrate with obervability tools using Event-Driven Ansible (EDA).
+
+- *Inference* - Inference in AI refers to the process of using a trained model to make predictions or decisions based on new, unseen data.  For this AIOps workflow we are using *Red Hat AI* for understanding service issues like an application outage, and *Ansible Lightspeed* to create an Ansible Playbook.
 
 - *Automation* is the ability automatically detect, respond to, and resolve IT issues without human intervention.  We are using *Ansible Automation Platform* to tie observability and inference together to direclty to create workflows for self healing infrastrucure.
 
