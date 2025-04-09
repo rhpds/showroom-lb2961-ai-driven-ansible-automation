@@ -259,7 +259,7 @@ We used **Mattermost** in this lab because it's a lightweight, open-source chat 
 [quote]
 💡 Think of this as **automated ticket enrichment**. Logs and RCA can be pre-attached to incidents or alerts, helping teams respond faster and more effectively.
 
-image::mattermost_logs_and_rca_placeholder.png[Mattermost logs and RCA message preview]
+link:_images/mattermost_logs_and_rca_placeholder.png[image::mattermost_logs_and_rca_placeholder.png[Mattermost logs and RCA message preview], window=_blank]
 
 🎯 In short: You now have an intelligent incident response pipeline that goes from *failure detection* to *context* to *fix suggestion* — powered by Red Hat AI and Ansible Automation Platform.
 
