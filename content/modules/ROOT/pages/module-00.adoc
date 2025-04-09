@@ -1,4 +1,4 @@
-= Section 2 - Log Enrichment and Prompt Generation Workflow
+= Section 1 - Log Enrichment and Prompt Generation Workflow
 
 == Objective
 
@@ -248,9 +248,9 @@ This is what real-world AIOps looks like! Imagine this in a production setting:
 
 [quote]
 💡 A ticket appears in your ITSM tool with:
-- Attached logs  
-- Root Cause Analysis (RCA)  
-- A prompt ready for Lightspeed to generate the fix  
+- Attached logs
+- Root Cause Analysis (RCA)
+- A prompt ready for Lightspeed to generate the fix
 
 And all of this *before anyone has even opened the ticket*.
 
