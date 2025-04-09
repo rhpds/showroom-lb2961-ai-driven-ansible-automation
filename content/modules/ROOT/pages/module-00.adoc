@@ -231,6 +231,8 @@ Go to Automation Controller → Jobs. Confirm workflow execution.
 
 image::workflow_triggered_jobs.png[]
 
+When the workflow completes you will see a green ✅ Success
+
 Go to Templates and you should be able to see a new template called "🧠 Lightspeed Remediation Playbook Generator" generated.
 
 == Final Checks & Observations
@@ -239,7 +241,7 @@ Before you move on to the remediation phase, take a moment to explore the **Matt
 
 Here’s what to look for:
 
-- 🛑 *HTTPD Error Logs*: These logs were automatically collected from the webserver using Filebeat and streamed via Kafka.
+- 🛑 *HTTPD Error Logs*: These logs were automatically collected from the webserver.
 - 🧠 *AI Insights (RCA)*: Red Hat AI parsed the logs and generated a root cause analysis. These insights help you understand exactly **why** the failure occurred.
 
 This is what real-world AIOps looks like! Imagine this in a production setting:
