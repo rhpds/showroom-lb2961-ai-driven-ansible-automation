@@ -22,7 +22,7 @@ The goal is to showcase how **automation + AI** can be used to detect, analyze, 
 
 == Lab Environment
 
-Here's what is already running in your demo environment:
+image::lab_topology.png[lab_topology]
 
 - A RHEL node with Apache (`httpd`) installed
 - Filebeat monitoring Apache logs
