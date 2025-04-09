@@ -233,6 +233,34 @@ image::workflow_triggered_jobs.png[]
 
 Go to Templates and you should be able to see a new template called "🧠 Lightspeed Remediation Playbook Generator" generated.
 
+== Final Checks & Observations
+
+Before you move on to the remediation phase, take a moment to explore the **Mattermost Town Square** channel.
+
+Here’s what to look for:
+
+- 🛑 *HTTPD Error Logs*: These logs were automatically collected from the webserver using Filebeat and streamed via Kafka.
+- 🧠 *AI Insights (RCA)*: Red Hat AI parsed the logs and generated a root cause analysis. These insights help you understand exactly **why** the failure occurred.
+
+This is what real-world AIOps looks like! Imagine this in a production setting:
+
+[quote]
+💡 A ticket appears in your ITSM tool with:
+- Attached logs  
+- Root Cause Analysis (RCA)  
+- A prompt ready for Lightspeed to generate the fix  
+
+And all of this *before anyone has even opened the ticket*.
+
+We used **Mattermost** in this lab because it's a lightweight, open-source chat platform that’s easy to run per student. But the same flow would work with **ServiceNow**, **Jira**, or any ITSM of your choice.
+
+[quote]
+💡 Think of this as **automated ticket enrichment**. Logs and RCA can be pre-attached to incidents or alerts, helping teams respond faster and more effectively.
+
+image::mattermost_logs_and_rca_placeholder.png[Mattermost logs and RCA message preview]
+
+🎯 In short: You now have an intelligent incident response pipeline that goes from *failure detection* to *context* to *fix suggestion* — powered by Red Hat AI and Ansible Automation Platform.
+
 == Summary
 
 You created a workflow that:
