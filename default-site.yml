@@ -24,9 +24,9 @@ runtime:
   cache_dir: ./.cache/antora
 
 antora:
-  extensions:
-    - require: ./content/lib/dev-mode.js
-      enabled: true
+  # extensions:
+  #   - require: ./content/lib/dev-mode.js
+  #     enabled: true
 
 output:
   dir: ./www
