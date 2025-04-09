@@ -13,12 +13,29 @@ In this lab, you will build an intelligent, self-healing automation workflow usi
 - ✨ Ansible Lightspeed to generate remediation playbooks
 - 🔁 Ansible Automation Platform (AAP) workflows for orchestration
 - 📡 Event-Driven Ansible (EDA) to listen to real-time service events
-- 📦 Gitea for GitOps-style content management
-- 💬 Mattermost for alerting and notifications
 
-The goal is to showcase how **automation + AI** can be used to detect, analyze, and remediate Apache service failures **without writing any playbooks manually**.
+The goal is to showcase how **automation + AI** can be used to detect, analyze, and remediate an application failures **without writing any playbooks manually**.
 
----
+== Background
+
+AIOps stands for *artificial intelligence* for IT operations. It refers both to a modern approach to managing IT operations and to the software systems that implement it. AIOps uses data science, big data, and machine learning to augment—or even automate—many of the processes traditionally handled manually by IT teams. Its goal is to improve issue detection, root cause analysis, and system resolution by making IT operations more intelligent and efficient. To read more about AIops there is a great article on https://www.redhat.com/en/topics/ai/what-is-aiops[redhat.com, window=_blank].
+
+In AIOps there are three major parts:
+
+- Obervability
+- Automation
+- Inference
+
+image::aiops-circle.png[aiops diagram,55%,55%]
+
+- *Inference* - Inference in AI refers to the process of using a trained model to make predictions or decisions based on new, unseen data.  For this AIOps workflow we are using *Red Hat AI* for understanding service issues like an application outage, and *Ansible Lightspeed* to create an Ansible Playbook.
+
+- *Observability* is the ability to understand the internal state of a system by collecting, analyzing, and visualizing data from logs, metrics, and traces.  This _can_ be another AI tool such as *IBM Instana Observability*.  For this lab we are simply relaying logs using https://www.elastic.co/beats/filebeat[Filebeat, window=_blank], a Lightweight shipper for logs.  Ansible Automation Platform can integrate with obervability tools using Event-Driven Ansible (EDA).
+
+- *Automation* is the ability automatically detect, respond to, and resolve IT issues without human intervention.  We are using *Ansible Automation Platform* to tie observability and inference together to direclty to create workflows for self healing infrastrucure.
+
+It is important to note that AIOps can be adopted incrementally and is it not all or nothing.  You do not need to have fully self healing infrastrucure on day one to start realizing value.  At Red Hat we like to say: "Start small, think big!"
+
 
 == Lab Environment
 
@@ -27,174 +44,52 @@ image::lab_topology.png[lab_topology]
 - A RHEL node with Apache (`httpd`) installed
 - Filebeat monitoring Apache logs
 - Kafka acting as the event transport
-- EDA listening to Kafka and launching workflows based on defined rules
+- Event-Driven Ansible is listening to Kafka and launching workflows based on defined rules
 - Red Hat AI to infer incident context from logs
 - Ansible Lightspeed to generate a remediation playbook
-- Gitea for version control
-- Ansible Automation Controller to run job templates and workflows
+- Gitea for source control management of Ansible Playbooks
+- Ansible Automation Platform to run job templates and workflows
 
----
+[quote]
+💡 EDA (Event-Driven Ansible) is part of Ansible Automation Platform.  It is referred to separately sometimes depending on the workflow.  EDA uses rulebooks to monitor events, then executes specified job templates or workflows based on the event.  Think of it simply as inputs and outputs.  EDA is an automatic way for inputs into Ansible Automation Platform, where Automation controller / Automation execution is the output (running a job template or workflow).
 
-== Step 1: Create Workflow 1 – `Generate Lightspeed Remediation`
+== Workshop Agenda
 
-This workflow is triggered by EDA when it receives an event indicating Apache failure.
+For this workshop are there four (4) Parts:
 
-Create a new **workflow job template** with the name: `Generate Lightspeed Remediation`.
+1. *Event-Driven Ansible (EDA) Response* - Event Driven Ansible will respond to a systemd application outage
 
-Add the following job templates in this order:
+2. *Log Enrichment and Prompt Generation Workflow* - Ansible Automation Platform (AAP) - will retreieve systemd logs, coordinate with Red Hat AI to analyze the incident, notify Mattermost then automatically create a Job Template for us to use in the subsequent workflow.
 
-=== 1. `⚙️ Apache Service Status Check`
+3. *Remediation Workflow* - This workflow will focus on automatically creating an Ansible Playbook to resolve the issue by using Ansible Lightspeed.  This workflow will take the prompt created by the previous workflow, request a playbook from Ansible Lightspeed, sync this playbook to Git and then automatically create a Job Template for us to remediate the issue.
 
-*Purpose:*
-Checks whether Apache is active and logs its status.
+4. *Execute HTTPD Remedation* - This is the final Job Template that will actually fix the application outage on the RHEL webserver.
 
-*What it does:*
-- Runs `systemctl status httpd`
-- Collects output and logs it
-- Output is consumed by the next steps (Red Hat AI and Mattermost)
+[quote]
+💡 Could this all be one workflow? Yes.  This is purposely broken up at natural breakpoints where a human user can review what the AIOps workflow is doing and course correct if required.  This also allows organization to incrementally adopt AIOps workflows.  Organization can benefit greatly from any of these individual parts!
 
----
+Here is a diagram of the entire workflow:
 
-=== 2. `🤖 RHEL AI: Analyze Incident`
+image::overview_diagram.png[overview_diagram]
 
-*Purpose:*
-Uses Red Hat AI inference service to understand the failure message.
+[quote]
+❓ Why Mattermost? Mattermost is an open-source, self-hostable online chat service with file sharing, search, and third party application integrations. It is designed as an internal chat for organisations and companies, and mostly markets itself as an open-source alternative to Slack and Microsoft Teams.  It is used in this workshop as an example and can be replaced with any Chat or ITSM (e.g. *ServiceNow*) of your choice.  It is really easy to setup an individual Mattermost container per student in the workshop!
 
-*What it does:*
-- Sends logs from the previous step to a model served using InstructLab
-- Returns a natural-language description of the error
-- Suggests what kind of automation could fix it
+[quote]
+❓ Why Gitea? Gitea is a self-hosted, open-source software development service that provides Git hosting, code review, team collaboration, package registry, and CI/CD, similar to platforms like GitHub, Bitbucket, and GitLab.  It could be replaced by *Github*, *Gitlab* or any Git service of your choosing.  It is a a very lightweight solution that works great for workshops.
 
----
+[quote]
+❓ Why Kafka? Apache Kafka is a distributed streaming platform used for building real-time data pipelines and streaming applications, enabling applications to publish, consume, and process high volumes of data streams.  It is all open source and self hosted and works great for workshops.  This could be replaced by any event bus of your choosing.  Event-Driven Ansible has numerous plugins including integratrions with AWS SQS, AWS CloudTrail, Azure Service Bus, Prometheus, dynatrace, IBM Instana, BigPanda, Zabbix, CyberArk and more.
 
-=== 3. `📣 Notify via Mattermost`
+**I need more details!**
 
-*Purpose:*
-Sends a human-readable incident message to a Mattermost channel.
+image::more.png[give me more,400]
 
-*What it does:*
-- Formats the AI response and Apache status
-- Pushes it to a channel using Mattermost Webhook
-- Simulates integration with a real ITSM tool like ServiceNow
+Woh! Calm down there home slice!  Here is a full breakdown of each individual step inside the workflow:
 
----
+image:workflow_diagram.png[workflow_diagram]
 
-=== 4. `⚙️ Build Ansible Lightspeed Job Template`
-
-*Purpose:*
-Creates a new job template with a survey that includes:
-- A user-defined prompt field
-- A pre-filled prompt from Red Hat AI output
-
-*Why this is important:*
-This allows Ansible Lightspeed to generate a remediation playbook without writing code manually. The job template created here will be used in the second workflow.
-
----
-
-== Step 2: Simulate the Failure (Trigger Workflow 1)
-
-After saving Workflow 1, simulate a failure in Apache to trigger the flow.
-
-. Launch the job template: `❌ Break Apache`
-*Purpose:* Introduces a known bad directive in `/etc/httpd/conf/httpd.conf` to cause Apache failure
-
-*What happens next:*
-- Filebeat detects the service issue
-- Kafka forwards the event
-- EDA rulebook matches and triggers `Generate Lightspeed Remediation` workflow
-
----
-
-== Step 3: Create Workflow 2 – `Execute HTTPD Remediation`
-
-This second workflow starts from the **job template created in Step 1 (Lightspeed Generator)** and finishes with a new job template that applies the fix.
-
-Create a workflow named: `Execute HTTPD Remediation`
-
-Add the following job templates:
-
-=== 1. `🧠 Lightspeed Remediation Playbook Generator`
-
-*Purpose:*
-Runs the job template created in Workflow 1 to generate a playbook from the AI prompt.
-
-*What it does:*
-- Uses Lightspeed to turn a prompt into a YAML playbook
-- Stores the result locally as `lightspeed-response.yml`
-
----
-
-=== 2. `🧾 Commit Fix to Gitea`
-
-*Purpose:*
-Pushes the generated playbook to the Gitea Git repository.
-
-*What it does:*
-- Authenticates with Gitea
-- Commits `lightspeed-response.yml`
-- Makes the playbook available for automation use
-
----
-
-=== 3. `📂 Sync Project: Lightspeed-Playbooks`
-
-*Purpose:*
-Syncs the `Lightspeed-Playbooks` project in AAP so the new playbook becomes available in the UI.
-
----
-
-=== 4. `⚙️ Build HTTPD Remediation Template`
-
-*Purpose:*
-Creates a new job template that uses the playbook pushed in Step 2 to fix the Apache service.
-
-*Note:*
-This job template is created dynamically and **cannot be part of the workflow**, but it will now appear in the Templates list.
-
----
-
-== Step 4: Execute the Final Fix
-
-After Workflow 2 completes:
-
-. Navigate to *Templates → Job Templates*
-. Look for the new remediation job template (e.g. `✅ Execute HTTPD Remediation`)
-. Launch it manually
-
-*What it does:*
-- Applies the fix to Apache configuration
-- Restarts the `httpd` service
-- Verifies if the issue is resolved
-
----
-
-== Optional: `✅ Restore Apache`
-
-If you want to return Apache to a good state (without fixing it via Workflow 2), you can run the `✅ Restore Apache` job template.
-
----
-
-== Summary of Job Templates
-
-Here's a recap of the job templates used in the lab:
-
-|===
-| Name | Purpose
-
-| `❌ Break Apache` | Simulates a failure in the Apache config
-| `⚙️ Apache Service Status Check` | Checks the current state of Apache
-| `🤖 RHEL AI: Analyze Incident` | Uses RHEL AI to understand the error
-| `📣 Notify via Mattermost` | Sends incident details to a chat system
-| `⚙️ Build Ansible Lightspeed Job Template` | Creates a JT to generate playbooks
-| `🧠 Lightspeed Remediation Playbook Generator` | Uses Lightspeed to generate the fix
-| `🧾 Commit Fix to Gitea` | Pushes the generated playbook to Git
-| `📂 Sync Project: Lightspeed-Playbooks` | Updates Controller project with latest content
-| `⚙️ Build HTTPD Remediation Template` | Creates JT to apply the AI-generated fix
-| `✅ Execute HTTPD Remediation` | Final fix (launched manually)
-| `✅ Restore Apache` | Restores Apache to a known-good config
-|===
-
----
+We will break this up into sections though!  As you go through each module we will break this down to make it easy! Red Hat will make AIOps easy for organizations to adopt and scale 🎉
 
 == Access & Credentials
 
@@ -202,29 +97,10 @@ You're already logged into the environment as `{ssh_user}`. No manual setup is n
 
 All lab content is preconfigured and ready to run.
 
----
-
 == What's Next?
 
-This lab gives you a starting point for building self-healing automation powered by AI. To extend:
+Lets get started 🚀
 
-- Replace Mattermost with ServiceNow or another ticketing system
-- Add approval steps before applying fixes
-- Support more services (e.g., MySQL, SSH, DNS)
-- Visualize logs using Kibana or Grafana
-
----
-
-== Congratulations 🎉
-
-You’ve just built an **AI-powered closed-loop remediation system** using:
-
-- 📡 Real-time event capture with EDA
-- 🧠 AI error understanding with RHEL AI
-- ✨ AI-generated fixes with Ansible Lightspeed
-- 📦 Git-backed version control
-- 🔁 AAP workflows to tie it all together
-
-This is the future of intelligent automation. 🚀
+Click the link below to proceed to the nexst section.
 
 image::aap_logo.png[aap_logo,55%,55%]

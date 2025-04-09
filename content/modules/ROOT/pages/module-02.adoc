@@ -1,11 +1,158 @@
-= Section 2 - Remediation Workflow old
+== Step 3: Create Workflow 1 – `Generate Lightspeed Remediation`
 
+This workflow is triggered by EDA when it receives an event indicating Apache failure.
 
-== Objective
+Create a new **workflow job template** with the name: `Generate Lightspeed Remediation`.
 
-For this section we will build another workflow called the **Remediation Workflow**.
+Add the following job templates in this order:
 
+=== 1. `⚙️ Apache Service Status Check`
 
+*Purpose:*
+Checks whether Apache is active and logs its status.
 
+*What it does:*
+- Runs `systemctl status httpd`
+- Collects output and logs it
+- Output is consumed by the next steps (Red Hat AI and Mattermost)
 
-image::automation_execution_templates.png[automation_execution_templates]
+---
+
+=== 2. `🤖 RHEL AI: Analyze Incident`
+
+*Purpose:*
+Uses Red Hat AI inference service to understand the failure message.
+
+*What it does:*
+- Sends logs from the previous step to a model served using InstructLab
+- Returns a natural-language description of the error
+- Suggests what kind of automation could fix it
+
+---
+
+=== 3. `📣 Notify via Mattermost`
+
+*Purpose:*
+Sends a human-readable incident message to a Mattermost channel.
+
+*What it does:*
+- Formats the AI response and Apache status
+- Pushes it to a channel using Mattermost Webhook
+- Simulates integration with a real ITSM tool like ServiceNow
+
+---
+
+=== 4. `⚙️ Build Ansible Lightspeed Job Template`
+
+*Purpose:*
+Creates a new job template with a survey that includes:
+- A user-defined prompt field
+- A pre-filled prompt from Red Hat AI output
+
+*Why this is important:*
+This allows Ansible Lightspeed to generate a remediation playbook without writing code manually. The job template created here will be used in the second workflow.
+
+---
+
+== Step 2: Simulate the Failure (Trigger Workflow 1)
+
+After saving Workflow 1, simulate a failure in Apache to trigger the flow.
+
+. Launch the job template: `❌ Break Apache`
+*Purpose:* Introduces a known bad directive in `/etc/httpd/conf/httpd.conf` to cause Apache failure
+
+*What happens next:*
+- Filebeat detects the service issue
+- Kafka forwards the event
+- EDA rulebook matches and triggers `Generate Lightspeed Remediation` workflow
+
+---
+
+== Step 3: Create Workflow 2 – `Execute HTTPD Remediation`
+
+This second workflow starts from the **job template created in Step 1 (Lightspeed Generator)** and finishes with a new job template that applies the fix.
+
+Create a workflow named: `Execute HTTPD Remediation`
+
+Add the following job templates:
+
+=== 1. `🧠 Lightspeed Remediation Playbook Generator`
+
+*Purpose:*
+Runs the job template created in Workflow 1 to generate a playbook from the AI prompt.
+
+*What it does:*
+- Uses Lightspeed to turn a prompt into a YAML playbook
+- Stores the result locally as `lightspeed-response.yml`
+
+---
+
+=== 2. `🧾 Commit Fix to Gitea`
+
+*Purpose:*
+Pushes the generated playbook to the Gitea Git repository.
+
+*What it does:*
+- Authenticates with Gitea
+- Commits `lightspeed-response.yml`
+- Makes the playbook available for automation use
+
+---
+
+=== 3. `📂 Sync Project: Lightspeed-Playbooks`
+
+*Purpose:*
+Syncs the `Lightspeed-Playbooks` project in AAP so the new playbook becomes available in the UI.
+
+---
+
+=== 4. `⚙️ Build HTTPD Remediation Template`
+
+*Purpose:*
+Creates a new job template that uses the playbook pushed in Step 2 to fix the Apache service.
+
+*Note:*
+This job template is created dynamically and **cannot be part of the workflow**, but it will now appear in the Templates list.
+
+---
+
+== Step 4: Execute the Final Fix
+
+After Workflow 2 completes:
+
+. Navigate to *Templates → Job Templates*
+. Look for the new remediation job template (e.g. `✅ Execute HTTPD Remediation`)
+. Launch it manually
+
+*What it does:*
+- Applies the fix to Apache configuration
+- Restarts the `httpd` service
+- Verifies if the issue is resolved
+
+---
+
+== Optional: `✅ Restore Apache`
+
+If you want to return Apache to a good state (without fixing it via Workflow 2), you can run the `✅ Restore Apache` job template.
+
+---
+
+== Summary of Job Templates
+
+Here's a recap of the job templates used in the lab:
+
+|===
+| Name | Purpose
+
+| `❌ Break Apache` | Simulates a failure in the Apache config
+| `⚙️ Apache Service Status Check` | Checks the current state of Apache
+| `🤖 RHEL AI: Analyze Incident` | Uses RHEL AI to understand the error
+| `📣 Notify via Mattermost` | Sends incident details to a chat system
+| `⚙️ Build Ansible Lightspeed Job Template` | Creates a JT to generate playbooks
+| `🧠 Lightspeed Remediation Playbook Generator` | Uses Lightspeed to generate the fix
+| `🧾 Commit Fix to Gitea` | Pushes the generated playbook to Git
+| `📂 Sync Project: Lightspeed-Playbooks` | Updates Controller project with latest content
+| `⚙️ Build HTTPD Remediation Template` | Creates JT to apply the AI-generated fix
+| `✅ Execute HTTPD Remediation` | Final fix (launched manually)
+| `✅ Restore Apache` | Restores Apache to a known-good config
+|===

@@ -112,7 +112,7 @@ image::blue_next_button.png[blue_next_button,150]
 image::survey_section.png[survey_section,500]
 
 [quote]
-⚠️ This is the really cool part!  There are two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manually created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By separating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next workflow!
+💡 This is the really cool part!  There are two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manually created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By separating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next workflow!
 
 [start=10]
 10. Modify the first text box with the Red Hat AI solution. Feel free to change the prompt to anything you want.
@@ -276,7 +276,7 @@ image::automation_execution_templates.png[automation_execution_templates]
 image::limit_node1.png[limit_node1,300]
 
 [quote]
-⚠️ A limit in Ansible Automation Platform is equivalent to `--limit` with the `ansible-playbook` command.  The limit specifies the host or hosts you want to run the Ansible Job on versus the entire inventory, effectively *limiting* it to only running on those host(s).
+💡 A limit in Ansible Automation Platform is equivalent to `--limit` with the `ansible-playbook` command.  The limit specifies the host or hosts you want to run the Ansible Job on versus the entire inventory, effectively *limiting* it to only running on those host(s).
 
 [start=4]
 4. Click on the blue *Next*.
