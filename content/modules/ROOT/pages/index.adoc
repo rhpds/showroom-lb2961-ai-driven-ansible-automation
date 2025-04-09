@@ -89,7 +89,7 @@ Woh! Calm down there home slice!  Here is a full breakdown of each individual st
 
 image:workflow_diagram.png[workflow_diagram]
 
-We will break this up into sections though!  As you go through each module we will break this down to make it easy! Red Hat will make AIOps easy for organizations to adopt and scale 🎉
+We will break this up into sections though!  As you go through each module we will break down each individual workflow and go step-by-step! Red Hat and Ansible Automation will make AIOps simple for organizations to adopt and scale 🎉
 
 == Access & Credentials
 
