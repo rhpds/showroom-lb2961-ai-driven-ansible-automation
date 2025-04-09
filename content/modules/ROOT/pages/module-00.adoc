@@ -231,6 +231,8 @@ Go to Automation Controller → Jobs. Confirm workflow execution.
 
 image::workflow_triggered_jobs.png[]
 
+Go to Templates and you should be able to see a new template called "🧠 Lightspeed Remediation Playbook Generator" generated.
+
 == Summary
 
 You created a workflow that:
@@ -242,3 +244,7 @@ Notifies Mattermost
 Prepares a Lightspeed prompt for automated playbook generation
 
 In the next step, we’ll use that prompt to fix Apache automatically!
+
+== Complete
+
+You have completed this module. Move forward to the next one to use the created template.
