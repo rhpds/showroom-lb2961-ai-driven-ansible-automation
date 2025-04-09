@@ -97,21 +97,20 @@ This real-time feed mimics how production environments might use automated ticke
 [quote]
 💡 With this integration, you are essentially watching AI and automation work together — detecting the issue, diagnosing it, and preparing remediation guidance before anyone intervenes.
 
-== Guide
 
-1. Log in to the web UI for Ansible Automation Platform if you're not already logged in.
+== Build the Workflow
 
-2. In the left navigation menu, click on *Automation Execution* → *Templates*.
+Login to Ansible Automation Platform.
+
+Go to Automation Execution → Templates.
 
 image::automation_execution_templates.png[automation_execution_templates]
 
-[start=3]
-3. Click the blue *Create template* button, then select **Create workflow job template**.
+Click Create template → Create workflow job template.
 
 image::create_workflow.png[create_workflow,300]
 
-[start=4]
-4. Fill out the following values
+Fill in the details:
 
 [options="header"]
 |===
@@ -120,25 +119,15 @@ image::create_workflow.png[create_workflow,300]
 | Organization | Default
 |===
 
-[start=5]
-5. Click the blue *Create workflow job template* button
+Click Create workflow job template.
 
 image::create_workflow_job_template.png[create_workflow_job_template,300]
 
-[start=6]
-6. You will now see a blank workflow canvas.
+You’ll see the empty workflow visualizer.
 
 image::currently_no_nodes_workflow.png[currently_no_nodes_workflow,400]
 
-[start=7]
-7. Click the blue *Add Step* button to begin adding Job Templates to the workflow.
-
-== Workflow Steps
-
-Each of the following steps adds a specific job template. Let’s go through them one by one.
-
-[start=8]
-8. Add the first step:
+Add the Apache Service Status Check node:
 
 [options="header"]
 |===
@@ -151,68 +140,105 @@ Each of the following steps adds a specific job template. Let’s go through the
 
 image::add_apache_status_check_step.png[Add Apache Status Check Step]
 
-[start=9]
-9. Add the second step connected to the first:
+Click Next, then Finish.
+
+image::blue_next_button.png[blue_next_button,150]
+image::blue_finish_button.png[blue_finish_button,150]
+
+Visual after first node:
+
+image::workflow_after_apache_status_node.png[Workflow after Apache node]
+
+Add RHEL AI: Analyze Incident step:
 
 [options="header"]
 |===
 | Parameter | Value
 | Node type | Job Template
 | Job Template | 🤖 RHEL AI: Analyze Incident
+| Status | Run on success
 | Convergence | Any
-| Node alias | (Optional)
+| Node alias | (You can leave this blank)
 |===
 
-image::add_rhel_ai_step.png[Add RHEL AI Inference Step]
+image::add_rhel_ai_step.png[Add RHEL AI Step]
 
-[start=10]
-10. Add the third step after Mattermost:
+Click Next, then Finish.
+
+image::blue_next_button.png[]
+image::blue_finish_button.png[]
+
+Workflow with two nodes:
+
+image::workflow_after_rhel_ai_step.png[After RHEL AI step]
+
+Add Notify via Mattermost:
 
 [options="header"]
 |===
 | Parameter | Value
 | Node type | Job Template
 | Job Template | 📣 Notify via Mattermost
+| Status | Run on success
 | Convergence | Any
-| Node alias | (Optional)
+| Node alias | (You can leave this blank)
 |===
 
-image::add_mattermost_step.png[Add Mattermost Notification Step]
+image::add_mattermost_step.png[Add Mattermost Step]
 
-[start=11]
-11. Finally, add the last step:
+Click Next, then Finish.
+
+image::workflow_after_mattermost_step.png[After Mattermost step]
+
+Add Build Ansible Lightspeed Job Template:
 
 [options="header"]
 |===
 | Parameter | Value
 | Node type | Job Template
 | Job Template | ⚙️ Build Ansible Lightspeed Job Template
+| Status | Run on success
 | Convergence | Any
-| Node alias | (Optional)
+| Node alias | (You can leave this blank)
 |===
 
 image::add_lightspeed_jt_creator.png[Add Lightspeed JT Creator Step]
 
-[quote]
-⚠️ This job template will generate another job template using the Lightspeed AI-generated prompt. That new job template will be used in the next workflow for actual remediation.
+Click Next, then Finish.
+
+image::blue_next_button.png[]
+image::blue_finish_button.png[]
+
+Final workflow visual:
+
+image::workflow_final_prompt_generation.png[Final Workflow]
+
+Click Save to finalize.
+
+image::save_button.png[]
 
 == Trigger the Workflow
 
-Once this workflow is saved, it will be automatically triggered by EDA when Apache fails.
-To simulate the failure and test the flow:
+Run the `❌ Break Apache` job template. This inserts an invalid directive in Apache config and restarts the service.
 
-[start=12]
-12. Run the `❌ Break Apache` job template. This inserts an invalid directive in Apache config and restarts the service.
+image::run_break_apache.png[]
 
-image::run_break_apache.png[Run ❌ Break Apache Template]
+Go to EDA Controller → Rulebook Activations. Confirm EDA picked up the event.
 
-13. Go to *EDA Controller* → *Rulebook Activations* and observe that the rulebook captured the event.
+image::eda_trigger_capture.png[]
 
-image::eda_trigger_capture.png[EDA Rulebook Activation Capture]
+Go to Automation Controller → Jobs. Confirm workflow execution.
 
-14. Return to *Automation Controller* → *Jobs* to verify that the workflow `AI Insights and Lightspeed prompt generation` was triggered successfully.
+image::workflow_triggered_jobs.png[]
 
-image::workflow_triggered_jobs.png[Workflow Triggered from EDA]
+== Summary
 
-[quote]
-✅ Once this completes, you’ll have a brand new job template ready to run Lightspeed-based remediation using the AI-generated prompt!
+You created a workflow that:
+
+Uses logs for root cause analysis via Red Hat AI
+
+Notifies Mattermost
+
+Prepares a Lightspeed prompt for automated playbook generation
+
+In the next step, we’ll use that prompt to fix Apache automatically!
