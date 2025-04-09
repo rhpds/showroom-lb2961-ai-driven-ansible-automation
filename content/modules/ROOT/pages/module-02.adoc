@@ -1,52 +1,64 @@
 = Section 3 - Summary and Call to Actions
 
-You have completed the lab. This section will help you go further by documenting all the Ansible Playbooks and showing you how they work.
+You have completed the lab. This section will help you go further by documenting all the Ansible Playbooks and showing you how they work!
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+image::thumbs-up.gif[thumbsup!]
 
 == Summary of Job Templates
 
-Here's a recap of the job templates used in the lab:
-(in alphabetical order):
+Here's a recap of the job templates and rulebooks used in the lab:
+(in chronological order):
+
+Glossary:
+*RB* = Rulebook (for Event-Driven Ansible)
+*JT* = Job Template (for executing Ansible Playbooks)
 
 |===
 | Name | Purpose
-| `⚙️ Apache Service Status Check` | Checks the current state of Apache
 | `❌ Break Apache` | Simulates a failure in the Apache config
-| `🤖 RHEL AI: Analyze Incident` | Uses RHEL AI to understand the error
-| `📣 Notify via Mattermost` | Sends incident details to a chat system
-| `⚙️ Build Ansible Lightspeed Job Template` | Creates a JT to generate playbooks
-| `🧠 Lightspeed Remediation Playbook Generator` | Uses Lightspeed to generate the fix
-| `🧾 Commit Fix to Gitea` | Pushes the generated playbook to Git
-| `⚙️ Build HTTPD Remediation Template` | Creates JT to apply the AI-generated fix
-| `✅ Execute HTTPD Remediation` | Final fix (launched manually)
-| `✅ Restore Apache` | Restores Apache to a known-good config
+| `Web App` | RB that watches Kafka queue for httpd disruption
+| `⚙️ Apache Service Status Check` | JT that checks the current state of Apache
+| `🤖 RHEL AI: Analyze Incident` | JT that uses RHEL AI to understand the error
+| `📣 Notify via Mattermost` | JT sends incident details to a chat system
+| `⚙️ Build Ansible Lightspeed Job Template` | JT that creates a JT to generate playbooks
+| `🧠 Lightspeed Remediation Playbook Generator` | JT that uses Lightspeed to generate the fix
+| `🧾 Commit Fix to Gitea` | JT pushes the generated playbook to Git
+| `Sync Project` | Workflow node that syncs Gitea project with dynamically created playbooks
+| `⚙️ Build HTTPD Remediation Template` | JT that creates another JT to apply the AI-generated fix
+| `✅ Execute HTTPD Remediation` | JT for Final fix (launched manually)
+| `✅ Restore Apache` | JT that Restores Apache to a known-good config
 |===
 
+Now here is a walkthrough in the same chronological order:
+
+=== `❌ Break Apache`
+*Purpose:* Introduces a known bad directive in `/etc/httpd/conf/httpd.conf` to cause Apache failure
+
+*What happens next:*
+
+- Filebeat detects the service issue
+- Kafka forwards the event
+- EDA rulebook matches and triggers `AI Insights and Lightspeed prompt generation` workflow
+
+*Ansible Playbook:*
+https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/httpd_break.yml[Github Link,window=_blank]
+
+== EDA Reponse
+
+image::eda_response.png[eda response,500]
+
+=== `Web App`
+
+*Purpose:*
+Checks for httpd disruption in a Kafka queue
+
+https://github.com/ansible-tmm/aiops-summitlab/blob/main/rulebooks/web_app.yml[Ansible Rulebook]
+
+== AI Insights and Lightspeed prompt generation workflow
+
+Also known as the `Enrichment Workflow` for short!
+
+image::enrichment_workflow_diagram.png[enrichment_workflow]
 
 === `⚙️ Apache Service Status Check`
 
@@ -62,26 +74,45 @@ Checks whether Apache is active and logs its status.
 *Ansible Playbook:*
 https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/systemd_check_status.yml[Github Link,window=_blank]
 
-=== `❌ Break Apache`
-*Purpose:* Introduces a known bad directive in `/etc/httpd/conf/httpd.conf` to cause Apache failure
 
-*What happens next:*
+=== `🤖 RHEL AI: Analyze Incident`
 
-- Filebeat detects the service issue
-- Kafka forwards the event
-- EDA rulebook matches and triggers `AI Insights and Lightspeed prompt generation` workflow
+*Purpose:*
+Uses Red Hat AI inference service to understand the failure message.
+
+*What it does:*
+
+- Sends logs
+- Returns a natural-language description of the error
+- Suggests what kind of automation could fix it
 
 *Ansible Playbook:*
-https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/httpd_break.yml[Github Link,window=_blank]
+https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/rhelai_inference_survey.yml[Github Link,window=_blank]
+
+=== `📣 Notify via Mattermost`
+
+*Purpose:*
+Sends a human-readable incident message to a Mattermost channel.
+
+*What it does:*
+
+- Formats the AI response and Apache status
+- Pushes it to a channel using Mattermost Webhook
+- Simulates integration with a real ITSM tool like ServiceNow
+
+*Ansible Playbook:*
+https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/mattermost_first_message.yml[Github Link,window=_blank]
 
 === `⚙️ Build Ansible Lightspeed Job Template`
 
-*Purpose:*
+*Purpose:* Creates a new job template for the second workflow
 
-Creates a new job template with a survey that includes:
+*What it does:*
 
-- A user-defined prompt field
-- A pre-filled prompt from Red Hat AI output
+- Create a job template with a survey that includes:
+
+  * A user-defined prompt field
+  * A pre-filled prompt from Red Hat AI output
 
 *Why this is important:*
 
@@ -90,13 +121,22 @@ This allows Ansible Lightspeed to generate a remediation playbook without writin
 *Ansible Playbook:*
 https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/aap_create_job_template.yml[Github Link,window=_blank]
 
-=== `⚙️ Build HTTPD Remediation Template`
+== Remediation Workflow
+
+image::remediation_workflow.png[remedation_workflow]
+
+=== `🧠 Lightspeed Remediation Playbook Generator`
 
 *Purpose:*
-Creates a new job template that uses the playbook pushed by Ansible Lightspeed to fix the Apache (httpd) service.
+Runs the job template created in the previous workflow `AI Insights and Lightspeed prompt generation` to generate a playbook from the AI prompt.
+
+*What it does:*
+
+- Uses Lightspeed to turn a prompt into a YAML playbook
+- Stores the result locally as `lightspeed-response.yml`
 
 *Ansible Playbook:*
-https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/httpd_remediation_job_template.yml[Github Link,window=_blank]
+https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/lightspeed_generate.yml[Github Link,window=_blank]
 
 === `🧾 Commit Fix to Gitea`
 
@@ -104,6 +144,7 @@ https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/httpd_remedia
 Pushes the generated playbook to the Gitea Git repository.
 
 *What it does:*
+
 - Authenticates with Gitea
 - Commits `lightspeed-response.yml`
 - Makes the playbook available for automation use
@@ -111,12 +152,35 @@ Pushes the generated playbook to the Gitea Git repository.
 *Ansible Playbook:*
 https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/scm_pr.yml[Github Link,window=_blank]
 
+=== `Sync Project to Lightspeed-Playbooks`
+
+*Purpose:*
+Syncs the git project from Gitea to Ansible Automation Platform
+
+[quote]
+💡 This is not a Job Template, but a built-in node that will sync Git projects within the workflow visualizer
+
+=== `⚙️ Build HTTPD Remediation Template`
+
+*Purpose:*
+Creates a new job template that uses the playbook pushed by Ansible Lightspeed to fix the Apache (httpd) service.
+
+*What it does:*
+
+- Creates a new Job Template called `Execute HTTPD Remediation`
+- Uses the dynamically generated `lightspeed-response.yml` playbook
+- Sets up the credentials, inventory and prompt for limit
+
+*Ansible Playbook:*
+https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/httpd_remediation_job_template.yml[Github Link,window=_blank]
+
 == `Execute HTTPD Remediation`
 
 *Purpose*
 Fix httpd on the RHEL webserver
 
 *What is does*
+
 - Removes the bad syntax from the httpd configuration file
 - Restarts the httpd service
 
@@ -142,49 +206,27 @@ This Job Template is dynamically generated from Ansible Lightspeed and stored in
         state: restarted
 ----
 
-=== 3. `📣 Notify via Mattermost`
+=== `✅ Restore Apache`
 
-*Purpose:*
-Sends a human-readable incident message to a Mattermost channel.
+[quote]
+💡 This Job Template is optional
 
-*What it does:*
-- Formats the AI response and Apache status
-- Pushes it to a channel using Mattermost Webhook
-- Simulates integration with a real ITSM tool like ServiceNow
+*Purpose*
+If you want to return Apache to a good state (without running AIOps workflows), you can run the `✅ Restore Apache` job template.
 
+*What it does*
 
+- Should be mostly identical to what you see above for the `Execute HTTPD Remediation`
 
-
-
-=== 1. `🧠 Lightspeed Remediation Playbook Generator`
-
-*Purpose:*
-Runs the job template created in Workflow 1 to generate a playbook from the AI prompt.
-
-*What it does:*
-- Uses Lightspeed to turn a prompt into a YAML playbook
-- Stores the result locally as `lightspeed-response.yml`
-
-=== Optional: `✅ Restore Apache`
-
-If you want to return Apache to a good state (without fixing it via Workflow 2), you can run the `✅ Restore Apache` job template.
-
-=== `🤖 RHEL AI: Analyze Incident`
-
-*Purpose:*
-Uses Red Hat AI inference service to understand the failure message.
-
-*What it does:*
-
-- Sends logs
-- Returns a natural-language description of the error
-- Suggests what kind of automation could fix it
 
 *Ansible Playbook:*
-https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/rhelai_inference_survey.yml[Github Link,window=_blank]
-
+https://github.com/ansible-tmm/aiops-summitlab/blob/main/playbooks/httpd_fix.yml[Github Link,window=_blank]
 
 == Call to action
+
+image::ansible-aiops.jpeg[picture of homer,300]
+
+Here are some recommended nexst steps in your Ansible AIOps journey:
 
 - https://youtube.com/ansibleautomation?sub_confirmation=1[Subscribe to our YouTube page]
 

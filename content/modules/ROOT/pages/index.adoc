@@ -70,7 +70,7 @@ For this workshop are there four (4) Parts:
 
 Here is a diagram of the entire workflow:
 
-image::overview_diagram.png[overview_diagram]
+link:overview_diagram.png[image:overview_diagram.png[overview_diagram], window=_blank]
 
 [quote]
 ❓ Why Mattermost? Mattermost is an open-source, self-hostable online chat service with file sharing, search, and third party application integrations. It is designed as an internal chat for organisations and companies, and mostly markets itself as an open-source alternative to Slack and Microsoft Teams.  It is used in this workshop as an example and can be replaced with any Chat or ITSM (e.g. *ServiceNow*) of your choice.  It is really easy to setup an individual Mattermost container per student in the workshop!
@@ -87,7 +87,7 @@ image::more.png[give me more,400]
 
 Woh! Calm down there home slice!  Here is a full breakdown of each individual step inside the workflow:
 
-image:workflow_diagram.png[workflow_diagram]
+link:workflow_diagram.png[image:workflow_diagram.png[workflow_diagram], window=_blank]
 
 We will break this up into sections though!  As you go through each module we will break down each individual workflow and go step-by-step! Red Hat and Ansible Automation will make AIOps simple for organizations to adopt and scale 🎉
 
