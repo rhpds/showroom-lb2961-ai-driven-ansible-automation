@@ -39,7 +39,7 @@ It is important to note that AIOps can be adopted incrementally and is it not al
 
 == Lab Environment
 
-image::lab_topology.png[lab_topology]
+link:_images/lab_topology.png[image:lab_topology.png[lab_topology], window=_blank]
 
 - A RHEL node with Apache (`httpd`) installed
 - Filebeat monitoring Apache logs
