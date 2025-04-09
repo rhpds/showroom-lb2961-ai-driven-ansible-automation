@@ -14,7 +14,7 @@ In this lab, you will build an intelligent, self-healing automation workflow usi
 - 🔁 Ansible Automation Platform (AAP) workflows for orchestration
 - 📡 Event-Driven Ansible (EDA) to listen to real-time service events
 
-The goal is to showcase how **automation + AI** can be used to detect, analyze, and remediate an application failures **without writing any playbooks manually**.
+The goal is to showcase how **automation + AI** can be used to detect, analyze, and remediate an application failures **without writing any playbooks manually**.  For a quick overview consider this ~2 minute https://youtu.be/a3fCHd2vTXU?si=L_5jGYZFtb3SzCJq[YouTube video].  Quick plug! https://youtube.com/ansibleautomation?sub_confirmation=1[Please consider subscribing to the Ansible Team!]
 
 == Background
 
