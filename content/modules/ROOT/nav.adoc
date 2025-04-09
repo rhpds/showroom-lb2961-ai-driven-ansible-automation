@@ -1,6 +1,4 @@
 * xref:module-00.adoc[1. Log Enrichment and Prompt Generation Workflow]
 * xref:module-01.adoc[2. Remediation Workflow]
+* xref:module-02.adoc[3. Summary and Call to Actions]
 
-* xref:module-02.adoc[3. GitHub Sourced Container]
-** xref:module-02.adoc#prerequisites[Install Prerequisites]
-** xref:module-02.adoc#container[Enable Container]
