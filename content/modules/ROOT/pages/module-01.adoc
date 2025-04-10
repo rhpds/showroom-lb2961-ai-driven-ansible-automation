@@ -290,7 +290,7 @@ This showcases a complete AI-driven automation loop — from incident detection 
 💡 You can open the playbook file and inspect the contents. This is your opportunity to validate the AI-generated output before executing it. Just like in production systems, automated changes should be reviewed—either manually or through automated policy enforcement tools.
 
 [quote]
-🎯 *Pro Tip:* If you're planning to use this in a real-world setup, consider inserting an approval step here or sending the commit as a Pull Request to a `staging` branch. This way, your remediation workflow includes guardrails for human validation before running automated fixes.
+*Pro Tip:* If you're planning to use this in a real-world setup, consider inserting an approval step here or sending the commit as a Pull Request to a `staging` branch. This way, your remediation workflow includes guardrails for human validation before running automated fixes.
 
 == Fix webserver issue
 
