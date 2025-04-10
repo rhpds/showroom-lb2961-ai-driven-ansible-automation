@@ -262,6 +262,36 @@ image::remediation_workflow_success.png[remediation_workflow_success,150]
 [quote]
 🎉 You have used Ansible Automation Platform in an AIOps workflow to automatically create an Ansible Job Template to fix your issue. This has created an Ansible Job Template called *🔧✅ Execute HTTPD Remediation*. You could also add this to the workflow, but it might be a natural breakpoint where you schedule this job template during an approved change window. For example, some organizations might only want to apply changes to production servers on Sundays at 3AM.
 
+== Review the AI-Generated Playbook in Gitea
+
+Before we proceed with executing the final job, let’s take a step back and review what was automatically created for us.
+
+Red Hat AI was able to:
+
+* Analyze the Apache failure logs collected by Filebeat and forwarded to RHEL AI
+* Generate a root cause explanation for the issue (RCA)
+* Create a concise and relevant prompt based on the RCA
+* Use that prompt to call Ansible Lightspeed
+* Ansible Lightspeed with IBM watsonx Code Assistant, generated an Ansible Playbook to fix the issue
+* The playbook was automatically pushed to Gitea in the `lightspeed-playbooks` repository
+
+This showcases a complete AI-driven automation loop — from incident detection to automated remediation content generation — all before a human steps in. Gitea here acts as the version control source of truth, where you can review the generated fix.
+
+=== How to Review the Playbook
+
+1. Open the lab landing page.
+2. Locate the **Gitea** section in Lab Access Details.
+3. Click the link to launch the Gitea web console in your browser.
+4. Login using the credentials provided on the lab access details page.
+5. Navigate to the `lightspeed-playbooks` repository.
+6. Review the most recent commits — you should see one that corresponds to the Lightspeed-generated fix.
+
+[quote]
+💡 You can open the playbook file and inspect the contents. This is your opportunity to validate the AI-generated output before executing it. Just like in production systems, automated changes should be reviewed—either manually or through automated policy enforcement tools.
+
+[quote]
+🎯 *Pro Tip:* If you're planning to use this in a real-world setup, consider inserting an approval step here or sending the commit as a Pull Request to a `staging` branch. This way, your remediation workflow includes guardrails for human validation before running automated fixes.
+
 == Fix webserver issue
 
 1. In the left navigation menu, click on *Automation Execution* → *Templates*.
