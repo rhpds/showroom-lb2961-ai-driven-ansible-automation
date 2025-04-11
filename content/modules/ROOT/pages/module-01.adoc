@@ -62,26 +62,20 @@ As you can see in the above output, the httpd.service has failed.
 image::automation_execution_templates.png[automation_execution_templates]
 
 [start=3]
-3. Click the blue *Create template* button, then select **Create workflow job template**.
+3. Scroll down and select the *Remediation Workflow* Workflow job template
 
-image::create_workflow.png[create_workflow,300]
+image::remediation_workflow_list.png[create_workflow]
+
+[quote]
+💡 The last workflow (specifically the job template *Build Ansible Lightspeed Job Template*) used the *ansible.controller.workflow_job_template* module to automatically create this blank workflow. We could have Ansible automatically create the entire workflow but we want to illustrate each part and what it is doing.  The most important part is that Ansible automatically created a survey with output from Red Hat AI.  You will see this called out below when we run the workflow.  Ask your instructor if you need clarification.
 
 [start=4]
-4. Fill out the following values
+4. Click on the blue *View workflow visualizer* button
 
-[options="header"]
-|===
-| Parameter | Value
-| Name | Remediation Workflow
-| Organization | Default
-|===
+image::view_workflow_visualizer_button.png[visualizer_button,300]
 
 [start=5]
-5. Click the blue *Create workflow job template* button
-
-image::create_workflow_job_template.png[create_workflow_job_template,300]
-
-You will get a window that looks like this:
+5. Verify you have a window that looks like this:
 
 image::currently_no_nodes_workflow.png[currently_no_nodes_workflow,400]
 
@@ -107,22 +101,7 @@ image::add_step_lightspeed_remediation.png[add_step_lightspeed_remediation,500]
 image::blue_next_button.png[blue_next_button,150]
 
 [start=9]
-9. Review the Survey section
-
-image::survey_section.png[survey_section,500]
-
-[quote]
-💡 This is the really cool part!  There are two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manually created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By separating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next workflow!
-
-[start=10]
-10. Modify the first text box with the Red Hat AI solution. Feel free to change the prompt to anything you want.
-
-11. Click on the blue *Next*.
-
-image::blue_next_button.png[blue_next_button,150]
-
-[start=12]
-12. Review and click the blue *Finish* button.
+9. Review and click the blue *Finish* button.
 
 image::blue_finish_button.png[blue_finish_button,150]
 
@@ -130,15 +109,15 @@ Your workflow will now look like this:
 
 image::remediation_workflow_part_one.png[remediation_workflow_part_one,500]
 
-[start=13]
-13. Click on the three dots (kebab menu) next to the *🧠 Lightspeed Remediation Playbook Generator* node
+[start=10]
+10. Click on the three dots (kebab menu) next to the *🧠 Lightspeed Remediation Playbook Generator* node
 
-14. Click on *⊕ Add step and link*
+11. Click on *⊕ Add step and link*
 
 image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
-[start=15]
-15. Fill out the following values
+[start=12]
+12. Fill out the following values
 
 [options="header"]
 |===
@@ -152,13 +131,13 @@ image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
 image::remediation_workflow_part_two.png[remediation_workflow_part_two,500]
 
-[start=16]
-16. Click on the blue *Next*.
+[start=13]
+13. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
-[start=17]
-17. Review and click the blue *Finish* button
+[start=14]
+14. Review and click the blue *Finish* button
 
 image::blue_finish_button.png[blue_finish_button,150]
 
@@ -166,15 +145,15 @@ Your workflow will now look like this:
 
 image::remediation_workflow_part_two_final.png[remediation_workflow_part_two_final,500]
 
-[start=18]
-18. Click on the three dots (kebab menu) next to the *🧾 Commit Fix to Gitea* node
+[start=15]
+15. Click on the three dots (kebab menu) next to the *🧾 Commit Fix to Gitea* node
 
-19 Click on *⊕ Add step and link*
+16 Click on *⊕ Add step and link*
 
 image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
-[start=20]
-20. Fill out the following values
+[start=17]
+17. Fill out the following values
 
 [options="header"]
 |===
@@ -191,13 +170,13 @@ image::remediation_workflow_part_three.png[remediation_workflow_part_three,500]
 [quote]
 ⚠️ Notice this node type is different.  This is a *built-in* node type that will force a **Project Sync** to the repository that will hold our auto-generated Ansible Playbooks.  This is effectively a *git pull*  The previous node: *🧾 Commit Fix to Gitea*  synced the Ansible Playbook from Ansible Lightspeed to Gitea, now we are retrieving that playbook from Gitea to use in Ansible Automation Platform.
 
-[start=21]
-21. Click on the blue *Next*.
+[start=18]
+18. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
-[start=22]
-22. Review and click the blue *Finish* button.
+[start=19]
+19. Review and click the blue *Finish* button.
 
 image::blue_finish_button.png[blue_finish_button,150]
 
@@ -205,15 +184,15 @@ Your workflow will now look like this:
 
 image::remediation_workflow_part_three_final.png[remediation_workflow_part_three_final,500]
 
-[start=23]
-23. Click on the three dots (kebab menu) next to the *🧠 Lightspeed-Playbooks* node
+[start=20]
+20. Click on the three dots (kebab menu) next to the *🧠 Lightspeed-Playbooks* node
 
-24. Click on *⊕ Add step and link*
+21. Click on *⊕ Add step and link*
 
 image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
-[start=25]
-25. Fill out the following values
+[start=22]
+22. Fill out the following values
 
 [options="header"]
 |===
@@ -227,13 +206,13 @@ image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
 image::remediation_workflow_part_four.png[remediation_workflow_part_four,500]
 
-[start=26]
-26. Click on the blue *Next*.
+[start=23]
+23. Click on the blue *Next*.
 
 image::blue_next_button.png[blue_next_button,150]
 
-[start=27]
-27. Review and click the blue *Finish* button
+[start=24]
+24. Review and click the blue *Finish* button
 
 image::blue_finish_button.png[blue_finish_button,150]
 
@@ -243,24 +222,48 @@ image::remediation_workflow_part_four_final.png[remediation_workflow_part_four_f
 
 You are now done creating the workflow!
 
-[start=28]
-28. Click on the blue **Save** button at the top.
+[start=25]
+25. Click on the blue **Save** button at the top.
 
 image::save_button.png[save_button,150]
 
-[start=29]
-29. Exit out of the Workflow Visualizer by clicking the *x* at the top right
+[start=26]
+26. Exit out of the Workflow Visualizer by clicking the *x* at the top right
 
-30. Click the *🚀 Launch template* button to execute the *Remediation Workflow*
+27. Click the *🚀 Launch template* button to execute the *Remediation Workflow*
 
 image::launch_template_button.png[launch_template_button,150]
+
+[quote]
+💡 This is the really cool part!  There are two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manually created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By separating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next workflow!
+
+image::workflow_prompt.png[workflow_prompt]
+
+[start=28]
+28. Review the prompt AI generated (right side) and correct the left side with the red required asterick *. Feel free to copy and paste from the right side to the left side.
+
+[quote]
+This is the step that allows us to course correct any output that AI has provided us.  We can review what it showed us before we prompt Ansible Lightspeed to make sure the prompt is legitimate.
+
+[start=29]
+29. Click on the blue *Next*.
+
+image::blue_next_button.png[blue_next_button,150]
+
+[start=29]
+29. Review and click the blue *Finish* button.
+
+image::blue_finish_button.png[blue_finish_button,150]
+
+[start=30]
+30. Wait for the workflow to complete
 
 When the workflow completes you will see a green ✅ Success
 
 image::remediation_workflow_success.png[remediation_workflow_success,150]
 
 [quote]
-🎉 You have used Ansible Automation Platform in an AIOps workflow to automatically create an Ansible Job Template to fix your issue. This has created an Ansible Job Template called *🔧✅ Execute HTTPD Remediation*. You could also add this to the workflow, but it might be a natural breakpoint where you schedule this job template during an approved change window. For example, some organizations might only want to apply changes to production servers on Sundays at 3AM.
+🎉 You have used Ansible Automation Platform in an AIOps workflow to automatically create an Ansible Job Template to fix your issue. This has created an Ansible Job Template called *🔧✅ Execute HTTPD Remediation*. You could also add this to the workflow, but it might be another natural breakpoint where you schedule this job template during an approved change window. For example, some organizations might only want to apply changes to production servers on Sundays at 3AM.
 
 == Review the AI-Generated Playbook in Gitea
 
