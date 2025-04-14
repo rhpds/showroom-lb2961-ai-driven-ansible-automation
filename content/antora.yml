@@ -7,13 +7,39 @@ nav:
 asciidoc:
   attributes:
     lab_name: "Introduction to AI-Driven Ansible Automation"
-    release-version: master
     page-pagination: true
-    my_var: "foo"
-    guid: my-guid
-    ssh_user: lab-user
-    ssh_password: devops
-    ssh_command: ssh someone@example.com
+    release-version: master
+
+    # Core user/environment vars
+    guid: MYGUID
+    sandbox_zone: MYSANDBOX
+    lab_username: lab-user
+    lab_password: MYPASSWORD
+
+    # Raw service ports
+    gitea_web_ui_port: 488
+    vscode_web_ui_port: 8443
+    mattermost_port: 8065
+
+    # Computed service URLs
+    aap_web_url: controller.{guid}.sandbox{sandbox_zone}.opentlc.com
+    targethost: bastion.{guid}.sandbox{sandbox_zone}.opentlc.com
+    mattermost_host: service1.{guid}.sandbox{sandbox_zone}.opentlc.com
+
+    # Z-prefixed derived variables (use these in asciidoc to simplify referencing)
+    z_ansible_controller_web_ui_url: "https://{nginx_web_url}"
+    z_ansible_controller_admin_username: "{lab_username}"
+    z_ansible_controller_admin_password: "{lab_password}"
+    z_gitea_web_ui_url: "https://{targethost}:{gitea_web_ui_port}"
+    z_gitea_web_ui_username: "{lab_username}"
+    z_gitea_web_ui_password: "{lab_password}"
+    z_vscode_web_ui_url: "https://{targethost}:{vscode_web_ui_port}"
+    z_vscode_web_ui_password: "{lab_password}"
+    z_mattermost_url: "http://{mattermost_host}:{mattermost_port}"
+    z_mattermost_username: "ansibleadmin@ansible.com"
+    z_mattermost_password: "ansible123!"
+
+    # Optional links (Showroom UI dropdown)
     page-links:
-    - url: https://redhat.com
-      text: Red Hat
+      - url: https://redhat.com
+        text: Red Hat
