@@ -93,7 +93,7 @@ We will break this up into sections though!  As you go through each module we wi
 
 == Access & Credentials
 
-You're already logged into the environment as `{ssh_user}`. No manual setup is needed.
+You're already logged into the environment as `{ssh_username}`. No manual setup is needed.
 
 All lab content is preconfigured and ready to run.
 
