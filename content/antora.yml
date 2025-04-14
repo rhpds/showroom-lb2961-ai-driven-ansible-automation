@@ -22,9 +22,9 @@ asciidoc:
     mattermost_port: 8065
 
     # Computed service URLs
-    aap_web_url: controller.{subdomain_base}
-    targethost: bastion.{subdomain_base}
-    mattermost_host: service1.{subdomain_base}
+    aap_web_url: "controller.{subdomain_base}"
+    targethost: "bastion.{subdomain_base}"
+    mattermost_host: "service1.{subdomain_base}"
 
     # Z-prefixed derived variables (use these in asciidoc to simplify referencing)
     z_ansible_controller_web_ui_url: "https://{aap_web_url}"
