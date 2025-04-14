@@ -233,7 +233,7 @@ image::workflow_triggered_jobs.png[]
 
 When the workflow completes you will see a green ✅ Success
 
-Go to Templates and you should be able to see a new template called "🧠 Lightspeed Remediation Playbook Generator" generated.
+Go to Templates and you should be able to see a new job template called "🧠 Lightspeed Remediation Playbook Generator" generated. This step also creates a blank Workflow Job Template called "Remediation Workflow" that will be used in next challenge.
 
 == Final Checks & Observations
 
@@ -277,4 +277,4 @@ In the next step, we’ll use that prompt to fix Apache automatically!
 
 == Complete
 
-You have completed this module. Move forward to the next one to use the created template.
+You have completed this module. Move forward to the next one to use the created templates.
