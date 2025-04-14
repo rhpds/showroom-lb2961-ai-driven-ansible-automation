@@ -14,7 +14,7 @@ asciidoc:
     guid: MYGUID
     sandbox_zone: MYSANDBOX
     lab_username: lab-user
-    lab_password: MYPASSWORD
+    lab_password: "{ssh_password}"
 
     # Raw service ports
     gitea_web_ui_port: 488
@@ -22,19 +22,19 @@ asciidoc:
     mattermost_port: 8065
 
     # Computed service URLs
-    aap_web_url: controller.{guid}.sandbox{sandbox_zone}.opentlc.com
-    targethost: bastion.{guid}.sandbox{sandbox_zone}.opentlc.com
-    mattermost_host: service1.{guid}.sandbox{sandbox_zone}.opentlc.com
+    aap_web_url: controller.{subdomain_base}
+    targethost: bastion.{subdomain_base}
+    mattermost_host: service1.{subdomain_base}
 
     # Z-prefixed derived variables (use these in asciidoc to simplify referencing)
-    z_ansible_controller_web_ui_url: "https://{nginx_web_url}"
-    z_ansible_controller_admin_username: "{lab_username}"
-    z_ansible_controller_admin_password: "{lab_password}"
+    z_ansible_controller_web_ui_url: "https://{aap_web_url}"
+    z_ansible_controller_admin_username: "{ssh_username}"
+    z_ansible_controller_admin_password: "{ssh_password}"
     z_gitea_web_ui_url: "https://{targethost}:{gitea_web_ui_port}"
-    z_gitea_web_ui_username: "{lab_username}"
-    z_gitea_web_ui_password: "{lab_password}"
+    z_gitea_web_ui_username: "{ssh_username}"
+    z_gitea_web_ui_password: "{ssh_password}"
     z_vscode_web_ui_url: "https://{targethost}:{vscode_web_ui_port}"
-    z_vscode_web_ui_password: "{lab_password}"
+    z_vscode_web_ui_password: "{ssh_password}"
     z_mattermost_url: "http://{mattermost_host}:{mattermost_port}"
     z_mattermost_username: "ansibleadmin@ansible.com"
     z_mattermost_password: "ansible123!"
