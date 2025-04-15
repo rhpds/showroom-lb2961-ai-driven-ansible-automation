@@ -71,16 +71,24 @@ Think of Mattermost as a stand-in for ServiceNow in this demonstration.
 💡 In a real-world production environment, you can easily replace Mattermost with ServiceNow (or any other ITSM tool). This enables a more advanced automated workflow, where tickets are automatically created and enriched with logs and insights — all before a human even picks up the ticket!
 
 === Accessing Mattermost
-	1.	Navigate to the Mattermost tab in the lab landing page (or use the direct link provided).
-	2.	Click on “View in Browser” to open the console.
-	3.	Login using the credentials provided in the Mattermost section of the lab’s landing page:
+[cols="2,2", options="header"]
+|===
+| Component
+| Value
 
-[options=“header”]
+| Gitea URL
+| link:http://service1.{subdomain_base}:{mattermost_port}[Mattermost,window=_blank]
+
+| Username
+| ansibleadmin@ansible.com
+
+| Password
+| ansible123!
 |===
-| Field | Value
-| Username | ansibleadmin@ansible.com
-| Password | ansible123!
-|===
+
+	1.	Open mattermost using the above details
+	2.	Click on “View in Browser” to open the console.
+	3.	Login using the credentials provided.
 
 Once logged in, click on the Town Square channel from the left-hand navigation.
 
