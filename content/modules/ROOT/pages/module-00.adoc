@@ -31,11 +31,11 @@ Before diving into the workflow, let’s see how easy it is to test this out you
 1. Open the **Terminal** in the lab.
 2. Run the following `curl` command (replace `<TOKEN>` with `{ssh_password}`):
 
-[source,shell]
+[source, shell, role="execute", subs="attributes+"]
 ----
 curl -X POST http://rhelai.example.com:8000/v1/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <TOKEN>" \
+  -H "Authorization: Bearer {ssh_password}" \
   -d '{
     "model": "/root/.cache/instructlab/models/granite-8b-lab-v1",
     "prompt": "What is the capital of USA?",
