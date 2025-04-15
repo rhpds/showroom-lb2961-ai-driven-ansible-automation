@@ -118,12 +118,12 @@ This lab environment includes a variety of tools working together to demonstrate
 Click link if you want to open it in full tab: 
 https://{nginx_web_url}[AAP Web UI,window=_blank]
 | Username: `{lab_username}`
-Password: `{lab_password}`
+Password: `{ssh_password}`
 
 | Gitea
 | https://{targethost}:{gitea_web_ui_port}[Gitea Web UI,window=_blank]
 | Username: `{lab_username}`
-Password: `{lab_password}`
+Password: `{ssh_password}`
 
 | Mattermost
 | http://service1.{subdomain_base}:{mattermost_port}[Mattermost,window=_blank]
