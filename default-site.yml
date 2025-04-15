@@ -1,6 +1,6 @@
 ---
 site:
-  title: Showroom Template Demo
+  title: Introduction to AI-Driven Ansible Automation
   url: https://redhat-scholars.github.io/course-template
   start_page: modules::index.adoc
 
