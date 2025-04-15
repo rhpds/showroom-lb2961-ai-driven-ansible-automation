@@ -97,6 +97,40 @@ You're already logged into the environment as `{lab_username}`. No manual setup 
 
 All lab content is preconfigured and ready to run.
 
+=== Systems Overview
+
+This lab environment includes a variety of tools working together to demonstrate AI-driven remediation. You'll interact with the following systems:
+
+* Ansible Automation Platform (AAP) - Executes workflows and job templates. Already opened in your lab interface.
+* Gitea - Git service used to host the Lightspeed-generated playbook.
+* Mattermost - Used for automated notifications during log enrichment.
+* RHEL node - The webserver (`httpd`) that will experience and recover from failure.
+* Red Hat AI & Lightspeed - AI services that analyze logs and generate remediation content.
+
+=== Access Table
+
+[cols="2,2,2", options="header"]
+|===
+| System | URL | Credentials
+
+| Ansible Automation Platform
+| AAP is preloaded in the lab interface.
+Click link if you want to open it in full tab: 
+https://{nginx_web_url}[AAP Web UI,window=_blank]
+| Username: `{lab_username}`
+Password: `{lab_password}`
+
+| Gitea
+| https://{targethost}:{gitea_web_ui_port}[Gitea Web UI,window=_blank]
+| Username: `{lab_username}`
+Password: `{lab_password}`
+
+| Mattermost
+| http://service1.{subdomain_base}:{mattermost_port}[Mattermost,window=_blank]
+| Username: ansibleadmin@ansible.com
+Password: ansible123!
+|===
+
 == What's Next?
 
 Lets get started 🚀
