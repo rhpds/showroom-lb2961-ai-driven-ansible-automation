@@ -282,12 +282,29 @@ This showcases a complete AI-driven automation loop — from incident detection 
 
 === How to Review the Playbook
 
-1. Open the lab landing page.
-2. Locate the **Gitea** section in Lab Access Details.
-3. Click the link to launch the Gitea web console in your browser.
-4. Login using the credentials provided on the lab access details page.
-5. Navigate to the `lightspeed-playbooks` repository.
-6. Review the most recent commits — you should see one that corresponds to the Lightspeed-generated fix.
+=== Gitea Access Details
+
+Use the following information to log in to Gitea and review the generated playbook:
+
+[cols="2,2", options="header"]
+|===
+| Component
+| Value
+
+| Gitea URL
+| link:https://{targethost}:{gitea_web_ui_port}[Gitea Web UI,window=_blank]
+
+| Username
+| `{lab_username}`
+
+| Password
+| `{ssh_password}`
+|===
+
+
+1. Login using the credentials provided.
+2. Navigate to the `lightspeed-playbooks` repository.
+3. Review the most recent commits — you should see one that corresponds to the Lightspeed-generated fix.
 
 [quote]
 💡 You can open the playbook file and inspect the contents. This is your opportunity to validate the AI-generated output before executing it. Just like in production systems, automated changes should be reviewed—either manually or through automated policy enforcement tools.
