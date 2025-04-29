@@ -49,6 +49,7 @@ link:_images/lab_topology.png[image:lab_topology.png[lab_topology], window=_blan
 - Ansible Lightspeed to generate a remediation playbook
 - Gitea for source control management of Ansible Playbooks
 - Ansible Automation Platform to run job templates and workflows
+- Mattermost for message notifications
 
 [quote]
 💡 EDA (Event-Driven Ansible) is part of Ansible Automation Platform.  It is referred to separately sometimes depending on the workflow.  EDA uses rulebooks to monitor events, then executes specified job templates or workflows based on the event.  Think of it simply as inputs and outputs.  EDA is an automatic way for inputs into Ansible Automation Platform, where Automation controller / Automation execution is the output (running a job template or workflow).
@@ -59,7 +60,7 @@ For this workshop are there four (4) Parts:
 
 1. *Event-Driven Ansible (EDA) Response* - Event Driven Ansible will respond to a systemd application outage
 
-2. *Log Enrichment and Prompt Generation Workflow* - Ansible Automation Platform (AAP) - will retreieve systemd logs, coordinate with Red Hat AI to analyze the incident, notify Mattermost then automatically create a Job Template for us to use in the subsequent workflow.
+2. *Log Enrichment and Prompt Generation Workflow* - Ansible Automation Platform (AAP) - will retrieve systemd logs, coordinate with Red Hat AI to analyze the incident, notify Mattermost then automatically create a Job Template for us to use in the subsequent workflow.
 
 3. *Remediation Workflow* - This workflow will focus on automatically creating an Ansible Playbook to resolve the issue by using Ansible Lightspeed.  This workflow will take the prompt created by the previous workflow, request a playbook from Ansible Lightspeed, sync this playbook to Git and then automatically create a Job Template for us to remediate the issue.
 
@@ -115,7 +116,7 @@ This lab environment includes a variety of tools working together to demonstrate
 
 | Ansible Automation Platform
 | AAP is preloaded in the lab interface.
-Click link if you want to open it in full tab: 
+Click link if you want to open it in full tab:
 https://{nginx_web_url}[AAP Web UI,window=_blank]
 | Username: `{lab_username}`
 Password: `{ssh_password}`
