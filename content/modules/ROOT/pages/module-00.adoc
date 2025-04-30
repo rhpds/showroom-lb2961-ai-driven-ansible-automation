@@ -15,7 +15,7 @@ By organizing these steps into a workflow, we simulate how multiple tools can co
 
 == Introducing AI with Ansible
 
-Red Hat AI is already deployed in this lab and powered by the **Granite LLM** model. You can interact with this AI using simple curl commands or trigger it through Job Templates via Ansible Automation Platform.
+Red Hat AI is already deployed in this lab and powered by the **Granite LLM** model. You can interact with this AI using simple `curl` commands or trigger it through Job Templates via Ansible Automation Platform.
 
 Red Hat AI is deployed using two Ansible Content Collections:
 
@@ -63,7 +63,7 @@ This returns a JSON response with helpful AI suggestions. This is exactly what�
 
 == Exploring Mattermost Integration
 
-In this lab environment, we’ve included Mattermost, a lightweight, open-source chat client that serves as a central place to view error logs and AI insights as part of your AI-Ops workflow.
+In this lab environment, we’ve included Mattermost, a lightweight, open-source chat client that serves as a central place to view error logs and AI insights as part of your AIOps workflow.
 
 Think of Mattermost as a stand-in for ServiceNow in this demonstration.
 
@@ -231,7 +231,7 @@ Run the `❌ Break Apache` job template. This inserts an invalid directive in Ap
 
 image::run_break_apache.png[]
 
-Go to EDA Controller → Rulebook Activations. Confirm EDA picked up the event.
+Go to Automation Decisions(Event-Driven Ansible) → Rulebook Activations. Confirm EDA(Event-Driven Ansible) picked up the event.
 
 image::eda_trigger_capture.png[]
 
