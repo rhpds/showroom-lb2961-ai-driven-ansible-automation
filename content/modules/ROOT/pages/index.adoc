@@ -14,7 +14,7 @@ In this lab, you will build an intelligent, self-healing automation workflow usi
 - 🔁 Ansible Automation Platform (AAP) workflows for orchestration
 - 📡 Event-Driven Ansible (EDA) to listen to real-time service events
 
-The goal is to showcase how **automation + AI** can be used to detect, analyze, and remediate an application failures **without writing any playbooks manually**.  For a quick overview consider this ~2 minute https://youtu.be/a3fCHd2vTXU?si=L_5jGYZFtb3SzCJq[YouTube video,window=_blank].  Quick plug! https://youtube.com/ansibleautomation?sub_confirmation=1[Please consider subscribing to the Ansible Team!,window=_blank]
+The goal is to showcase how **automation + AI** can be used to detect, analyze, and remediate application failures **without writing any playbooks manually**.  For a quick overview consider this ~2 minute https://youtu.be/a3fCHd2vTXU?si=L_5jGYZFtb3SzCJq[YouTube video,window=_blank].  Quick plug! https://youtube.com/ansibleautomation?sub_confirmation=1[Please consider subscribing to the Ansible Team!,window=_blank]
 
 == Background
 
@@ -32,16 +32,16 @@ image::aiops-circle.png[aiops diagram,55%,55%]
 
 - *Inference* - Inference in AI refers to the process of using a trained model to make predictions or decisions based on new, unseen data.  For this AIOps workflow we are using *Red Hat AI* for understanding service issues like an application outage, and *Ansible Lightspeed* to create an Ansible Playbook.
 
-- *Automation* is the ability automatically detect, respond to, and resolve IT issues without human intervention.  We are using *Ansible Automation Platform* to tie observability and inference together to direclty to create workflows for self healing infrastrucure.
+- *Automation* is the ability to automatically detect, respond to, and resolve IT issues without human intervention.  We are using *Ansible Automation Platform* to tie observability and inference together to direclty to create workflows for self healing infrastrucure.
 
-It is important to note that AIOps can be adopted incrementally and is it not all or nothing.  You do not need to have fully self healing infrastrucure on day one to start realizing value.  At Red Hat we like to say: "Start small, think big!"
+It is important to note that AIOps can be adopted incrementally and it is not all or nothing.  You do not need to have fully self healing infrastrucure on day one to start realizing value.  At Red Hat we like to say: "Start small, think big!"
 
 
 == Lab Environment
 
 link:_images/lab_topology.png[image:lab_topology.png[lab_topology], window=_blank]
 
-- A RHEL node with Apache (`httpd`) installed
+- A RHEL(Red Hat Enterprise Linux) node with Apache (`httpd`) installed
 - Filebeat monitoring Apache logs
 - Kafka acting as the event transport
 - Event-Driven Ansible is listening to Kafka and launching workflows based on defined rules
@@ -80,7 +80,7 @@ link:_images/overview_diagram.png[image:overview_diagram.png[overview_diagram], 
 ❓ Why Gitea? Gitea is a self-hosted, open-source software development service that provides Git hosting, code review, team collaboration, package registry, and CI/CD, similar to platforms like GitHub, Bitbucket, and GitLab.  It could be replaced by *Github*, *Gitlab* or any Git service of your choosing.  It is a a very lightweight solution that works great for workshops.
 
 [quote]
-❓ Why Kafka? Apache Kafka is a distributed streaming platform used for building real-time data pipelines and streaming applications, enabling applications to publish, consume, and process high volumes of data streams.  It is all open source and self hosted and works great for workshops.  This could be replaced by any event bus of your choosing.  Event-Driven Ansible has numerous plugins including integratrions with AWS SQS, AWS CloudTrail, Azure Service Bus, Prometheus, dynatrace, IBM Instana, BigPanda, Zabbix, CyberArk and more.
+❓ Why Kafka? Apache Kafka is a distributed streaming platform used for building real-time data pipelines and streaming applications, enabling applications to publish, consume, and process high volumes of data streams.  It is all open-source and self hosted and works great for workshops.  This could be replaced by any event bus of your choosing.  Event-Driven Ansible has numerous plugins including integratrions with AWS SQS, AWS CloudTrail, Azure Service Bus, Prometheus, dynatrace, IBM Instana, BigPanda, Zabbix, CyberArk and more.
 
 **I need more details!**
 
@@ -90,7 +90,7 @@ Woh! Calm down there home slice!  Here is a full breakdown of each individual st
 
 link:_images/workflow_diagram.png[image:workflow_diagram.png[workflow_diagram], window=_blank]
 
-We will break this up into sections though!  As you go through each module we will break down each individual workflow and go step-by-step! Red Hat and Ansible Automation will make AIOps simple for organizations to adopt and scale 🎉
+We will break this up into sections though!  As you go through each module we will break down each individual workflow and go step-by-step! Red Hat and Ansible Automation Platform will make AIOps simple for organizations to adopt and scale 🎉
 
 == Access & Credentials
 
@@ -136,6 +136,6 @@ Password: ansible123!
 
 Lets get started 🚀
 
-Click the link below to proceed to the nexst section.
+Click the link below to proceed to the next section.
 
 image::aap_logo.png[aap_logo,55%,55%]
