@@ -166,16 +166,22 @@ image::currently_no_nodes_workflow.png[currently_no_nodes_workflow,400]
 
 image::add_apache_status_check_step.png[Add Apache Status Check Step]
 
-Click Next, then Finish.
+7. Click Next, then Finish.
 
 image::blue_next_button.png[blue_next_button,150]
 image::blue_finish_button.png[blue_finish_button,150]
 
-7. Visual after first node:
+8. Visual after first node:
 
 image::workflow_after_apache_status_node.png[Workflow after Apache node]
 
-8. Add RHEL AI: Analyze Incident step:
+9. Add RHEL AI: Analyze Incident step:
+
+10. Click on the three dots (⋮ kebab menu) next to the *⚙️ Apache Service Status Check* node.
+
+11. Click on *⊕ Add step and link* to insert the next node into the workflow.
+
+image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
 [options="header"]
 |===
@@ -189,16 +195,22 @@ image::workflow_after_apache_status_node.png[Workflow after Apache node]
 
 image::add_rhel_ai_step.png[Add RHEL AI Step]
 
-Click Next, then Finish.
+12. Click Next, then Finish.
 
 image::blue_next_button.png[]
 image::blue_finish_button.png[]
 
-9. Workflow with two nodes:
+13. Workflow with two nodes:
 
 image::workflow_after_rhel_ai_step.png[After RHEL AI step]
 
-10. Add Notify via Mattermost:
+14. Add Notify via Mattermost:
+
+15. Click on the three dots (⋮ kebab menu) next to the *🤖 RHEL AI: Analyze Incident* node.
+
+16. Click on *⊕ Add step and link* to insert the next node into the workflow.
+
+image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
 [options="header"]
 |===
@@ -212,11 +224,17 @@ image::workflow_after_rhel_ai_step.png[After RHEL AI step]
 
 image::add_mattermost_step.png[Add Mattermost Step]
 
-Click Next, then Finish.
+17. Click Next, then Finish.
 
 image::workflow_after_mattermost_step.png[After Mattermost step]
 
-11. Add Build Ansible Lightspeed Job Template:
+18. Add Build Ansible Lightspeed Job Template:
+
+19. Click on the three dots (⋮ kebab menu) next to the *📣 Notify via Mattermost* node.
+
+20. Click on *⊕ Add step and link* to insert the next node into the workflow.
+
+image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
 [options="header"]
 |===
@@ -230,16 +248,16 @@ image::workflow_after_mattermost_step.png[After Mattermost step]
 
 image::add_lightspeed_jt_creator.png[Add Lightspeed JT Creator Step]
 
-Click Next, then Finish.
+21. Click Next, then Finish.
 
 image::blue_next_button.png[]
 image::blue_finish_button.png[]
 
-12. Final workflow visual:
+22. Final workflow visual:
 
 image::workflow_final_prompt_generation.png[Final Workflow]
 
-13. Click Save to finalize.
+23. Click Save to finalize.
 
 image::save_button.png[]
 
