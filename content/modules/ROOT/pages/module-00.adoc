@@ -127,15 +127,16 @@ Password: `{ssh_password}`
 |===
 
 1. Login to Ansible Automation Platform.
-
 2. Go to Automation Execution → Templates.
 
 image::automation_execution_templates.png[automation_execution_templates]
 
+[start=3]
 3. Click Create template → Create workflow job template.
 
 image::create_workflow.png[create_workflow,300]
 
+[start=4]
 4. Fill in the details:
 
 [options="header"]
@@ -145,15 +146,18 @@ image::create_workflow.png[create_workflow,300]
 | Organization | Default
 |===
 
-Click Create workflow job template.
+[start=5]
+5. Click Create workflow job template.
 
 image::create_workflow_job_template.png[create_workflow_job_template,300]
 
-5. You’ll see the empty workflow visualizer.
+[start=6]
+6. You’ll see the empty workflow visualizer.
 
 image::currently_no_nodes_workflow.png[currently_no_nodes_workflow,400]
 
-6. Add the Apache Service Status Check node:
+[start=7]
+7. Add the Apache Service Status Check node:
 
 [options="header"]
 |===
@@ -166,20 +170,23 @@ image::currently_no_nodes_workflow.png[currently_no_nodes_workflow,400]
 
 image::add_apache_status_check_step.png[Add Apache Status Check Step]
 
-7. Click Next, then Finish.
+[start=8]
+8. Click Next, then Finish.
 
 image::blue_next_button.png[blue_next_button,150]
 image::blue_finish_button.png[blue_finish_button,150]
 
-8. Visual after first node:
+[start=9]
+9. Visual after first node:
 
 image::workflow_after_apache_status_node.png[Workflow after Apache node]
 
-9. Add RHEL AI: Analyze Incident step:
+[start=10]
+10. Add RHEL AI: Analyze Incident step:
 
-10. Click on the three dots (⋮ kebab menu) next to the *⚙️ Apache Service Status Check* node.
+11. Click on the three dots (⋮ kebab menu) next to the *⚙️ Apache Service Status Check* node.
 
-11. Click on *⊕ Add step and link* to insert the next node into the workflow.
+12. Click on *⊕ Add step and link* to insert the next node into the workflow.
 
 image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
@@ -195,20 +202,23 @@ image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
 image::add_rhel_ai_step.png[Add RHEL AI Step]
 
-12. Click Next, then Finish.
+[start=13]
+13. Click Next, then Finish.
 
 image::blue_next_button.png[]
 image::blue_finish_button.png[]
 
-13. Workflow with two nodes:
+[start=14]
+14. Workflow with two nodes:
 
 image::workflow_after_rhel_ai_step.png[After RHEL AI step]
 
-14. Add Notify via Mattermost:
+[start=15]
+15. Add Notify via Mattermost:
 
-15. Click on the three dots (⋮ kebab menu) next to the *🤖 RHEL AI: Analyze Incident* node.
+16. Click on the three dots (⋮ kebab menu) next to the *🤖 RHEL AI: Analyze Incident* node.
 
-16. Click on *⊕ Add step and link* to insert the next node into the workflow.
+17. Click on *⊕ Add step and link* to insert the next node into the workflow.
 
 image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
@@ -224,15 +234,17 @@ image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
 image::add_mattermost_step.png[Add Mattermost Step]
 
-17. Click Next, then Finish.
+[start=18]
+18. Click Next, then Finish.
 
 image::workflow_after_mattermost_step.png[After Mattermost step]
 
-18. Add Build Ansible Lightspeed Job Template:
+[start=19]
+19. Add Build Ansible Lightspeed Job Template:
 
-19. Click on the three dots (⋮ kebab menu) next to the *📣 Notify via Mattermost* node.
+20. Click on the three dots (⋮ kebab menu) next to the *📣 Notify via Mattermost* node.
 
-20. Click on *⊕ Add step and link* to insert the next node into the workflow.
+21. Click on *⊕ Add step and link* to insert the next node into the workflow.
 
 image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
@@ -248,36 +260,43 @@ image::workflow_add_step_and_link.png[workflow_add_step_and_link,200]
 
 image::add_lightspeed_jt_creator.png[Add Lightspeed JT Creator Step]
 
-21. Click Next, then Finish.
+[start=21]
+22. Click Next, then Finish.
 
 image::blue_next_button.png[]
 image::blue_finish_button.png[]
 
-22. Final workflow visual:
+[start=23]
+23. Final workflow visual:
 
 image::workflow_final_prompt_generation.png[Final Workflow]
 
-23. Click Save to finalize.
+[start=24]
+24. Click Save to finalize.
 
 image::save_button.png[]
 
 == Trigger the Workflow
 
-14. Run the `❌ Break Apache` job template. This inserts an invalid directive in Apache config and restarts the service.
+[start=25]
+25. Run the `❌ Break Apache` job template. This inserts an invalid directive in Apache config and restarts the service.
 
 image::run_break_apache.png[]
 
-15. Go to Automation Decisions(Event-Driven Ansible) → Rulebook Activations. Confirm EDA(Event-Driven Ansible) picked up the event.
+[start=26]
+26. Go to Automation Decisions(Event-Driven Ansible) → Rulebook Activations. Confirm EDA(Event-Driven Ansible) picked up the event.
 
 image::eda_trigger_capture.png[]
 
-16. Go to Automation Controller → Jobs. Confirm workflow execution.
+[start=27]
+27. Go to Automation Controller → Jobs. Confirm workflow execution.
 
 image::workflow_triggered_jobs.png[]
 
 When the workflow completes you will see a green ✅ Success
 
-17. Go to Templates and you should be able to see a new job template called "🧠 Lightspeed Remediation Playbook Generator" generated. This step also creates a blank Workflow Job Template called "Remediation Workflow" that will be used in next challenge.
+[start=28]
+28. Go to Templates and you should be able to see a new job template called "🧠 Lightspeed Remediation Playbook Generator" generated. This step also creates a blank Workflow Job Template called "Remediation Workflow" that will be used in next challenge.
 
 == Final Checks & Observations
 
