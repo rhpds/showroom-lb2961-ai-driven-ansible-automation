@@ -89,7 +89,7 @@ Think of Mattermost as a stand-in for ServiceNow in this demonstration.
 	1.	Open mattermost using the above details
 	2.	Click on “View in Browser” to open the console.
 	3.	Login using the credentials provided.
-  4.  Click on the team "Automators"
+  4.  Click on the team "Automators".
 
 Once logged in, click on the Town Square channel from the left-hand navigation.
 
@@ -289,11 +289,10 @@ image::run_break_apache.png[]
 image::eda_trigger_capture.png[]
 
 [start=27]
-27. Go to Automation Controller → Jobs. Confirm workflow execution.
+27. Go to Automation Controller → Jobs. Confirm workflow execution. When the workflow completes you will see a green ✅ Success.
 
 image::workflow_triggered_jobs.png[]
 
-When the workflow completes you will see a green ✅ Success
 
 [start=28]
 28. Go to Templates and you should be able to see a new job template called "🧠 Lightspeed Remediation Playbook Generator" generated. This step also creates a blank Workflow Job Template called "Remediation Workflow" that will be used in next challenge.

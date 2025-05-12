@@ -86,7 +86,7 @@ link:_images/overview_diagram.png[image:overview_diagram.png[overview_diagram], 
 
 image::more.png[give me more,400]
 
-Woh! Calm down there home slice!  Here is a full breakdown of each individual step inside the workflow:
+Let’s take a closer look at each step in the workflow, broken down clearly for you.
 
 link:_images/workflow_diagram.png[image:workflow_diagram.png[workflow_diagram], window=_blank]
 

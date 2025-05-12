@@ -235,7 +235,7 @@ image::save_button.png[save_button,150]
 image::launch_template_button.png[launch_template_button,150]
 
 [quote]
-💡 This is the really cool part!  There are two text boxes here.  The top one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manually created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By separating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next workflow!
+💡 This is the really cool part!  There are two text boxes here.  The left one is the value we use to prompt Ansible Lightspeed to generate an Ansible Playbook.  This value was manually created by the Ansible Tech Marketing team. The 2nd text box was dynamically created from the last workflow by Red Hat AI.  If you are happy with the Red Hat AI prompt, feel free to copy and paste it over the first text box to test out the solution.  By separating AIOps into two workflows, it gives us (the administrator) the ability to review AI responses for accuracy before we deploy the next workflow!
 
 image::workflow_prompt.png[workflow_prompt]
 
