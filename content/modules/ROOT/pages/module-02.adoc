@@ -53,7 +53,7 @@ image::eda_response.png[eda response,500]
 *Purpose:*
 Checks for httpd disruption in a Kafka queue
 
-https://github.com/ansible-tmm/aiops-summitlab/blob/main/rulebooks/web_app.yml[Ansible Rulebook]
+https://github.com/ansible-tmm/aiops-summitlab/blob/main/rulebooks/web_app.yml[Ansible Rulebook,window=_blank]
 
 == AI Insights and Lightspeed prompt generation workflow
 
@@ -229,14 +229,14 @@ image::ansible-aiops.jpeg[picture of homer,300]
 
 Here are some recommended nexst steps in your Ansible AIOps journey:
 
-- https://youtube.com/ansibleautomation?sub_confirmation=1[Subscribe to our YouTube page]
+- https://youtube.com/ansibleautomation?sub_confirmation=1[Subscribe to our YouTube page,window=_blank]
 
-  * Check out the AI + Ansible YouTube https://youtube.com/playlist?list=PLdu06OJoEf2Y9-d7vPaKSh6ED_rO6AQFF&si=AFgrSb_FDHrU_TE6[playlist]
+  * Check out the AI + Ansible YouTube https://youtube.com/playlist?list=PLdu06OJoEf2Y9-d7vPaKSh6ED_rO6AQFF&si=AFgrSb_FDHrU_TE6[playlist,window=_blank]
 
-- https://labs.demoredhat.com/[Bookmark our technical workshops page]
-- https://developers.redhat.com/products/ansible/overview[Check out developers.redhat.com] and get a home lab license.
-- https://www.redhat.com/en/services/training/do007-ansible-essentials-simplicity-automation-technical-overview[Sign up for free Red Hat training]
+- https://labs.demoredhat.com/[Bookmark our technical workshops page,window=_blank]
+- https://developers.redhat.com/products/ansible/overview[Check out developers.redhat.com,window=_blank] and get a home lab license.
+- https://www.redhat.com/en/services/training/do007-ansible-essentials-simplicity-automation-technical-overview[Sign up for free Red Hat training,window=_blank]
 
 Are you ready to implement now?
 
-- https://www.redhat.com/en/contact[Contact Red Hat]
+- https://www.redhat.com/en/contact[Contact Red Hat,window=_blank]

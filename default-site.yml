@@ -1,7 +1,6 @@
 ---
 site:
-  title: Introduction to AI-Driven Ansible Automation
-  url: https://redhat-scholars.github.io/course-template
+  title: LB2961 - Introduction to AI-Driven Ansible Automation
   start_page: modules::index.adoc
 
 content:
