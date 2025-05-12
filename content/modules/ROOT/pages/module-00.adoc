@@ -89,7 +89,7 @@ Think of Mattermost as a stand-in for ServiceNow in this demonstration.
 	1.	Open mattermost using the above details
 	2.	Click on “View in Browser” to open the console.
 	3.	Login using the credentials provided.
-  	4.  Click on the team "Automators".
+  	4.      Click on the team "Automators".
 
 Once logged in, click on the Town Square channel from the left-hand navigation.
 
